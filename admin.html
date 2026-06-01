@@ -160,7 +160,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
       <div class="phase-label" id="phaseLabel">초기 상태</div>
     </div>
     <div class="phase-btns">
-      <button class="pbtn" id="pb1" onclick="setPhase(1)">🔒 1단계 — 참여자 대기</button>
+      <button class="pbtn" id="pb1' onclick='setPhase(1)'>🔒 1단계 — 대기</button>
       <button class="pbtn" id="pb2" onclick="setPhase(2)">📊 2단계 — 1차 투표 열기</button>
       <button class="pbtn" id="pb3" onclick="setPhase(3)">🎤 3단계 — 발표 시작 (투표 잠금)</button>
       <button class="pbtn" id="pb4" onclick="setPhase(4)">📊 4단계 — 2차 투표 열기</button>
@@ -255,7 +255,7 @@ function doLogin(){
 }
 
 // 단계 전환
-const phaseLabels={0:'초기 상태',1:'참여자 대기 중',2:'1차 투표 진행 중',3:'발표 진행 중',4:'2차 투표 진행 중',5:'결과 공개 중'};
+const phaseLabels={0:'초기 상태',1:'대기 (미사용)',2:'1차 투표 진행 중',3:'발표 진행 중 (2차 대기)',4:'2차 투표 진행 중',5:'결과 공개 중'};
 
 async function setPhase(p){
   await fbPut('config/phase', p);

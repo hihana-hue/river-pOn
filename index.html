@@ -18,14 +18,17 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 .screen{display:none;padding:16px 18px;animation:fi .4s ease;}
 .screen.active{display:block;}
 @keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
 .hdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border);gap:10px;}
 .logo{font-family:'Noto Serif KR',serif;font-size:11px;color:var(--accent);line-height:1.6;flex:1;}
 .logo strong{font-size:13px;display:block;margin-bottom:1px;}
 .badge{font-size:11px;color:var(--dim);background:var(--surface2);padding:4px 10px;border-radius:20px;border:1px solid var(--border);white-space:nowrap;flex-shrink:0;}
+
 .pbar{display:flex;gap:5px;margin-bottom:16px;}
 .pd{height:3px;flex:1;border-radius:2px;background:#252535;transition:background .4s;}
 .pd.done{background:var(--accent);}
 .pd.cur{background:rgba(232,197,71,0.4);}
+
 .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:12px;}
 .ctitle{font-family:'Noto Serif KR',serif;font-size:14px;color:var(--accent);margin-bottom:8px;}
 .bigtitle{font-family:'Noto Serif KR',serif;font-size:20px;font-weight:900;line-height:1.4;margin-bottom:6px;}
@@ -33,39 +36,46 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 .tag{display:inline-block;font-size:10px;background:rgba(232,197,71,0.12);color:var(--accent);border-radius:4px;padding:2px 8px;margin-bottom:10px;}
 .q{font-size:15px;font-weight:700;line-height:1.65;margin-bottom:16px;color:var(--text);}
 .divider{height:1px;background:var(--border);margin:14px 0;}
+
 .ninput{width:100%;background:var(--surface2);border:2px solid rgba(232,197,71,0.25);border-radius:12px;padding:14px;color:var(--text);font-size:18px;font-family:'Noto Serif KR',serif;text-align:center;letter-spacing:.08em;margin-bottom:8px;}
 .ninput:focus{outline:none;border-color:var(--accent);}
 .errmsg{font-size:12px;color:var(--err);text-align:center;min-height:16px;margin-bottom:6px;}
+
 .sbtn{width:100%;background:var(--accent);color:#000;border:none;border-radius:12px;padding:15px;font-size:15px;font-weight:700;font-family:'Noto Sans KR',sans-serif;cursor:pointer;transition:all .2s;margin-top:6px;display:block;}
 .sbtn:hover{background:var(--accent2);}
 .sbtn:disabled{opacity:0.4;cursor:not-allowed;background:var(--accent);color:#000;}
+
 .vopts{display:flex;flex-direction:column;gap:8px;}
 .vbtn{background:var(--surface2);border:2px solid rgba(232,197,71,0.2);border-radius:12px;padding:14px 16px;color:#f0ede6;font-size:15px;font-weight:500;font-family:'Noto Sans KR',sans-serif;cursor:pointer;transition:all .2s;text-align:left;display:flex;align-items:center;gap:10px;}
-.vbtn:hover{border-color:var(--accent);background:rgba(232,197,71,0.08);color:#f0ede6;}
+.vbtn:hover{border-color:var(--accent);background:rgba(232,197,71,0.08);}
 .vbtn.on{border-color:var(--accent);background:rgba(232,197,71,0.18);color:var(--accent);font-weight:700;box-shadow:0 0 0 1px var(--accent);}
 .vbtn.on::after{content:'✓';margin-left:auto;font-size:16px;color:var(--accent);}
+
 .wcard{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:44px 24px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px;min-height:260px;justify-content:center;}
-.wi{font-size:42px;}.wt{font-family:'Noto Serif KR',serif;font-size:18px;color:var(--text);}
+.wi{font-size:44px;}
+.wt{font-family:'Noto Serif KR',serif;font-size:18px;color:var(--text);}
 .ws{font-size:13px;color:var(--dim);line-height:1.75;}
 .dots{display:flex;gap:6px;margin-top:4px;}
 .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:dp 1.4s infinite;}
 .dot:nth-child(2){animation-delay:.2s;}.dot:nth-child(3){animation-delay:.4s;}
 @keyframes dp{0%,80%,100%{opacity:.2;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
-.donemsg{display:none;text-align:center;padding:18px;color:var(--ok);font-size:14px;}
-.dicon{font-size:28px;margin-bottom:8px;display:block;}
-.chart-wrap{display:flex;gap:8px;justify-content:center;align-items:flex-start;}
-.chart-item{display:flex;flex-direction:column;align-items:center;gap:8px;flex:1;}
-.chart-label-top{font-size:12px;color:var(--dim);font-weight:600;letter-spacing:.05em;}
-.pie-svg{overflow:visible;}
-.pie-ct{font-family:'Noto Serif KR',serif;font-size:10px;fill:var(--dim);text-anchor:middle;}
+
+/* 원형 그래프 */
+.chart-wrap{display:flex;gap:16px;justify-content:center;align-items:flex-start;}
+.chart-item{display:flex;flex-direction:column;align-items:center;gap:10px;flex:1;max-width:160px;}
+.chart-label-top{font-size:12px;color:var(--dim);font-weight:600;text-align:center;}
+.pie-svg{display:block;overflow:visible;}
+.pie-ct{font-family:'Noto Serif KR',serif;font-size:11px;fill:var(--dim);text-anchor:middle;dominant-baseline:middle;}
 .chart-legend{display:flex;flex-direction:column;gap:5px;width:100%;}
 .leg-row{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text);}
 .leg-dot{width:9px;height:9px;border-radius:3px;flex-shrink:0;}
 .leg-val{margin-left:auto;font-weight:700;color:var(--accent);font-size:12px;}
-.vsep{width:1px;background:var(--border);align-self:stretch;margin:0 2px;}
+.vsep{width:1px;background:var(--border);align-self:stretch;margin:0 4px;}
+
 .chbox{background:rgba(71,201,162,.08);border:1px solid rgba(71,201,162,.25);border-radius:12px;padding:14px;text-align:center;margin-bottom:12px;}
 .chnum{font-family:'Noto Serif KR',serif;font-size:28px;color:var(--ok);font-weight:900;}
 .chdesc{font-size:12px;color:var(--dim);margin-top:4px;}
+
 .memo-trigger{width:100%;background:transparent;border:2px solid rgba(232,197,71,.35);border-radius:12px;padding:14px;color:var(--accent);font-size:14px;font-weight:700;font-family:'Noto Sans KR',sans-serif;cursor:pointer;transition:all .2s;}
 .memo-trigger:hover{background:rgba(232,197,71,.07);}
 .memo-slide{max-height:0;overflow:hidden;transition:max-height .4s ease;}
@@ -75,7 +85,9 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 .mlist{display:flex;flex-direction:column;gap:8px;max-height:200px;overflow-y:auto;margin-top:10px;}
 .mitem{background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:10px 13px;font-size:13px;animation:si .3s ease;}
 @keyframes si{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:translateX(0)}}
+.mnum{font-size:10px;color:var(--accent);font-weight:700;margin-bottom:2px;}
 .mauth{font-size:11px;color:var(--dim);margin-bottom:3px;}
+
 .spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(0,0,0,0.3);border-top-color:#000;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:6px;}
 @keyframes spin{to{transform:rotate(360deg)}}
 ::-webkit-scrollbar{width:3px;}
@@ -84,13 +96,13 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 </head>
 <body>
 
-<!-- 화면0: 이름 입력 -->
+<!-- 화면0: 이름 입력 → 바로 1차 투표 -->
 <div class="screen active" id="s0">
   <div class="hdr">
     <span class="logo"><strong>프로젝트ON</strong>누가 당신의 진로를 결정하는가 / 투표</span>
     <span class="badge">입장</span>
   </div>
-  <div class="pbar"><div class="pd cur"></div><div class="pd"></div><div class="pd"></div><div class="pd"></div><div class="pd"></div></div>
+  <div class="pbar"><div class="pd cur"></div><div class="pd"></div><div class="pd"></div><div class="pd"></div></div>
   <div class="card">
     <span class="tag">참여자 확인</span>
     <div class="bigtitle">이름을 입력하세요</div>
@@ -102,28 +114,13 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
   </div>
 </div>
 
-<!-- 화면1: 대기 -->
-<div class="screen" id="s1">
-  <div class="hdr">
-    <span class="logo"><strong>프로젝트ON</strong>누가 당신의 진로를 결정하는가 / 투표</span>
-    <span class="badge">대기 중</span>
-  </div>
-  <div class="pbar"><div class="pd done"></div><div class="pd cur"></div><div class="pd"></div><div class="pd"></div><div class="pd"></div></div>
-  <div class="wcard">
-    <div class="wi">🎯</div>
-    <div class="wt">잠시 기다려 주세요</div>
-    <div class="ws">발표가 마무리 된 후<br>전체 결과를 발표하겠습니다.</div>
-    <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-  </div>
-</div>
-
 <!-- 화면2: 1차 투표 -->
 <div class="screen" id="s2">
   <div class="hdr">
     <span class="logo"><strong>프로젝트ON</strong>누가 당신의 진로를 결정하는가 / 투표</span>
     <span class="badge">1차 투표</span>
   </div>
-  <div class="pbar"><div class="pd done"></div><div class="pd done"></div><div class="pd cur"></div><div class="pd"></div><div class="pd"></div></div>
+  <div class="pbar"><div class="pd done"></div><div class="pd cur"></div><div class="pd"></div><div class="pd"></div></div>
   <div class="card">
     <div class="ctitle">📊 발표 전 투표</div>
     <div class="q">유망직종·소멸직종 자료를 보고<br>진로를 결정하는 것이<br>합리적이라고 생각하는가?</div>
@@ -134,7 +131,6 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
     </div>
   </div>
   <button class="sbtn" id="sb1" onclick="doV1()" disabled>투표하기</button>
-  <div class="donemsg" id="dm1"><span class="dicon">✅</span>1차 투표 완료!<br><span style="font-size:12px;color:var(--dim)">발표가 끝난 후 2차 투표가 시작됩니다.</span></div>
 </div>
 
 <!-- 화면3: 발표 중 대기 -->
@@ -143,7 +139,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
     <span class="logo"><strong>프로젝트ON</strong>누가 당신의 진로를 결정하는가 / 투표</span>
     <span class="badge">발표 중</span>
   </div>
-  <div class="pbar"><div class="pd done"></div><div class="pd done"></div><div class="pd done"></div><div class="pd cur"></div><div class="pd"></div></div>
+  <div class="pbar"><div class="pd done"></div><div class="pd done"></div><div class="pd cur"></div><div class="pd"></div></div>
   <div class="wcard">
     <div class="wi">🎤</div>
     <div class="wt">발표를 집중해서 들어주세요</div>
@@ -158,7 +154,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
     <span class="logo"><strong>프로젝트ON</strong>누가 당신의 진로를 결정하는가 / 투표</span>
     <span class="badge">2차 투표</span>
   </div>
-  <div class="pbar"><div class="pd done"></div><div class="pd done"></div><div class="pd done"></div><div class="pd done"></div><div class="pd cur"></div></div>
+  <div class="pbar"><div class="pd done"></div><div class="pd done"></div><div class="pd done"></div><div class="pd cur"></div></div>
   <div class="card">
     <div class="ctitle">📊 발표 후 투표</div>
     <div class="sub" style="margin-bottom:8px;">발표를 듣고 난 지금, 같은 질문에 다시 답해주세요.</div>
@@ -170,7 +166,21 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
     </div>
   </div>
   <button class="sbtn" id="sb2" onclick="doV2()" disabled>투표하기</button>
-  <div class="donemsg" id="dm2"><span class="dicon">✅</span>2차 투표 완료!<br><span style="font-size:12px;color:var(--dim)">잠시 후 결과를 함께 확인합니다.</span></div>
+</div>
+
+<!-- 화면 감사: 2차 투표 완료 후 대기 -->
+<div class="screen" id="sThanks">
+  <div class="hdr">
+    <span class="logo"><strong>프로젝트ON</strong>누가 당신의 진로를 결정하는가 / 투표</span>
+    <span class="badge">완료</span>
+  </div>
+  <div class="pbar"><div class="pd done"></div><div class="pd done"></div><div class="pd done"></div><div class="pd done"></div></div>
+  <div class="wcard">
+    <div class="wi">🙏</div>
+    <div class="wt">투표를 완료했습니다</div>
+    <div class="ws">참여해주셔서 감사합니다.<br><br>잠시 후 결과 화면이 공개됩니다.<br>발표자를 주목해 주세요.</div>
+    <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+  </div>
 </div>
 
 <!-- 화면5: 결과 + 메모 -->
@@ -179,12 +189,17 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
     <span class="logo"><strong>프로젝트ON</strong>누가 당신의 진로를 결정하는가 / 투표</span>
     <span class="badge">결과</span>
   </div>
-  <div class="pbar"><div class="pd done"></div><div class="pd done"></div><div class="pd done"></div><div class="pd done"></div><div class="pd done"></div></div>
+  <div class="pbar"><div class="pd done"></div><div class="pd done"></div><div class="pd done"></div><div class="pd done"></div></div>
   <div class="card">
     <div class="ctitle">📈 투표 결과 비교</div>
-    <div class="chart-wrap" id="chartWrap"><div style="text-align:center;color:var(--dim);padding:20px;font-size:13px;">결과 불러오는 중...</div></div>
+    <div class="chart-wrap" id="chartWrap">
+      <div style="text-align:center;color:var(--dim);padding:20px;font-size:13px;">결과 불러오는 중...</div>
+    </div>
   </div>
-  <div class="chbox"><div class="chnum" id="chNum">--</div><div class="chdesc">"합리적이지 않다" 응답 변화량</div></div>
+  <div class="chbox">
+    <div class="chnum" id="chNum">--</div>
+    <div class="chdesc">"합리적이지 않다" 응답 변화량</div>
+  </div>
   <div class="divider"></div>
   <div class="card">
     <div class="ctitle">✏️ 한 줄 메모</div>
@@ -199,139 +214,286 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 
 <script>
 const FB = 'https://river-projecton-default-rtdb.asia-southeast1.firebasedatabase.app';
-let phase = 0, nick = '', sel1 = null, sel2 = null;
+
+// ── 상태 ──────────────────────────────────────
+let nick = '';
+let sel1 = null, sel2 = null;
+let localPhase = 0;     // 내가 완료한 단계
+let serverPhase = 0;    // 서버(관리자) 단계
+let v2done = false;     // 2차 투표 완료 여부
 let pollTimer = null;
+let memoSubmitted = false;
 
-async function fbGet(path){ try{ const r=await fetch(`${FB}/${path}.json`); return await r.json(); }catch(e){ return null; } }
-async function fbPut(path,data){ try{ await fetch(`${FB}/${path}.json`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}); }catch(e){} }
-async function fbPost(path,data){ try{ await fetch(`${FB}/${path}.json`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...data,time:new Date().toISOString()})}); }catch(e){} }
+// ── Firebase 헬퍼 ─────────────────────────────
+async function fbGet(path){
+  try{ const r=await fetch(`${FB}/${path}.json`); return await r.json(); }catch(e){ return null; }
+}
+async function fbPut(path,data){
+  try{ await fetch(`${FB}/${path}.json`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}); }catch(e){}
+}
+async function fbPost(path,data){
+  try{ await fetch(`${FB}/${path}.json`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...data,time:new Date().toISOString()})}); }catch(e){}
+}
 
-function go(id){ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active'); window.scrollTo(0,0); }
+// ── 화면 전환 ─────────────────────────────────
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
 
-// Firebase phase polling — 관리자가 단계 바꾸면 자동 반영
+// ── Polling: 관리자 phase 감지 ────────────────
 async function pollPhase(){
-  const serverPhase = await fbGet('config/phase');
-  if(serverPhase === null) return;
-  // 이미 투표 완료된 단계는 되돌리지 않음
-  if(serverPhase > phase){
-    phase = serverPhase;
-    applyPhase();
+  const sp = await fbGet('config/phase');
+  if(sp === null) return;
+  serverPhase = sp;
+
+  // 2차 투표 완료 후 감사 화면에 있을 때 → phase 5 되면 결과로
+  if(v2done && serverPhase >= 5){
+    stopPolling();
+    await buildChart();
+    go('s5');
+    loadMemos();
+    return;
+  }
+
+  // 아직 1차 투표 안 한 상태
+  if(localPhase < 2 && serverPhase >= 2){
+    go('s2');
+    return;
+  }
+
+  // 1차 완료, 발표 대기 중 → 2차 투표 열리면
+  if(localPhase === 3 && serverPhase >= 4){
+    localPhase = 4;
+    go('s4');
+    return;
   }
 }
 
-function applyPhase(){
-  if(phase === 2 && !document.getElementById('dm1').style.display.includes('block')) go('s2');
-  else if(phase === 3) go('s3');
-  else if(phase === 4 && !document.getElementById('dm2').style.display.includes('block')) go('s4');
-  else if(phase === 5){ buildChart(); go('s5'); loadMemos(); }
-}
-
-function startPolling(){ pollTimer = setInterval(pollPhase, 3000); }
+function startPolling(){ if(!pollTimer) pollTimer = setInterval(pollPhase, 2500); }
 function stopPolling(){ if(pollTimer){ clearInterval(pollTimer); pollTimer=null; } }
 
+// ── 이름 입력 → 바로 1차 투표 ─────────────────
 async function submitNick(){
-  const v=document.getElementById('nickInput').value.trim();
-  const err=document.getElementById('nickErr');
-  if(!v||v.length<2){ err.textContent='이름을 정확히 입력해 주세요. (2글자 이상)'; return; }
-  err.textContent='';
-  const btn=document.querySelector('#s0 .sbtn');
-  btn.innerHTML='<span class="spinner"></span>입장 중...'; btn.disabled=true;
-  nick=v;
-  await fbPut(`participants/${nick}`,{name:nick,joinedAt:new Date().toISOString()});
-  localStorage.setItem('vNick',nick);
-  phase=1; go('s1'); startPolling();
+  const v = document.getElementById('nickInput').value.trim();
+  const err = document.getElementById('nickErr');
+  if(!v || v.length < 2){ err.textContent='이름을 정확히 입력해 주세요. (2글자 이상)'; return; }
+  err.textContent = '';
+  const btn = document.querySelector('#s0 .sbtn');
+  btn.innerHTML = '<span class="spinner"></span>입장 중...';
+  btn.disabled = true;
+
+  nick = v;
+  localStorage.setItem('vNick', nick);
+  await fbPut(`participants/${nick}`, {name:nick, joinedAt:new Date().toISOString()});
+
+  // 서버 phase 확인 후 적절한 화면으로
+  const sp = await fbGet('config/phase');
+  serverPhase = sp || 0;
+
+  if(serverPhase >= 5){
+    // 이미 결과 공개 중
+    localPhase = 5;
+    await buildChart(); go('s5'); loadMemos();
+  } else if(serverPhase >= 4){
+    // 2차 투표 중
+    localPhase = 4; go('s4'); startPolling();
+  } else if(serverPhase >= 3){
+    // 발표 중
+    localPhase = 3; go('s3'); startPolling();
+  } else {
+    // 1차 투표
+    localPhase = 2; go('s2'); startPolling();
+  }
 }
 
-function pick(round,val,btn){
+// ── 투표 선택 ─────────────────────────────────
+function pick(round, val, btn){
   document.getElementById('vo'+round).querySelectorAll('.vbtn').forEach(b=>b.classList.remove('on'));
   btn.classList.add('on');
   if(round===1){ sel1=val; document.getElementById('sb1').disabled=false; }
   else{ sel2=val; document.getElementById('sb2').disabled=false; }
 }
 
+// ── 1차 투표 완료 → 바로 발표 대기 화면 ────────
 async function doV1(){
   if(!sel1) return;
-  stopPolling();
-  const btn=document.getElementById('sb1');
-  btn.innerHTML='<span class="spinner"></span>저장 중...'; btn.disabled=true;
-  await fbPut(`votes/v1/${nick}`,{name:nick,answer:sel1});
-  localStorage.setItem('v1',sel1);
-  document.getElementById('vo1').style.display='none';
-  btn.style.display='none';
-  document.getElementById('dm1').style.display='block';
-  phase=3;
-  setTimeout(()=>{ go('s3'); startPolling(); }, 1600);
+  const btn = document.getElementById('sb1');
+  btn.innerHTML = '<span class="spinner"></span>저장 중...';
+  btn.disabled = true;
+
+  await fbPut(`votes/v1/${nick}`, {name:nick, answer:sel1});
+  localStorage.setItem('v1', sel1);
+  localPhase = 3;
+
+  // 약간의 딜레이 후 발표 대기 화면
+  setTimeout(()=>{ go('s3'); }, 800);
 }
 
+// ── 2차 투표 완료 → 감사 화면 유지 ────────────
 async function doV2(){
   if(!sel2) return;
-  stopPolling();
-  const btn=document.getElementById('sb2');
-  btn.innerHTML='<span class="spinner"></span>저장 중...'; btn.disabled=true;
-  await fbPut(`votes/v2/${nick}`,{name:nick,answer:sel2});
-  localStorage.setItem('v2',sel2);
-  document.getElementById('vo2').style.display='none';
-  btn.style.display='none';
-  document.getElementById('dm2').style.display='block';
-  phase=5;
-  setTimeout(async()=>{ await buildChart(); go('s5'); loadMemos(); }, 1600);
+  const btn = document.getElementById('sb2');
+  btn.innerHTML = '<span class="spinner"></span>저장 중...';
+  btn.disabled = true;
+
+  await fbPut(`votes/v2/${nick}`, {name:nick, answer:sel2});
+  localStorage.setItem('v2', sel2);
+  localPhase = 5;
+  v2done = true;
+
+  // 감사 화면으로 → polling이 phase=5 감지하면 결과로 자동 이동
+  setTimeout(()=>{ go('sThanks'); }, 800);
 }
 
+// ── 원형 그래프 ───────────────────────────────
 async function buildChart(){
-  const v1d=await fbGet('votes/v1'), v2d=await fbGet('votes/v2');
-  function cnt(d){ const r={yes:0,no:0,idk:0}; if(!d)return r; Object.values(d).forEach(x=>{ if(x.answer==='yes')r.yes++; else if(x.answer==='no')r.no++; else if(x.answer==='idk')r.idk++; }); return r; }
-  const c1=cnt(v1d), c2=cnt(v2d);
-  const t1=Math.max(c1.yes+c1.no+c1.idk,1), t2=Math.max(c2.yes+c2.no+c2.idk,1);
-  const colors=['#e8c547','#e85447','#7b8cde'], labels=['합리적이다','합리적이지 않다','모르겠다'];
-  function makePie(data,total,labelTop){
-    const vals=[data.yes,data.no,data.idk], pcts=vals.map(v=>Math.round(v/total*100));
-    const R=50,cx=60,cy=60; let paths='',legH='',sa=-Math.PI/2;
-    vals.forEach((v,i)=>{ const a=(v/total)*2*Math.PI,ea=sa+a,x1=cx+R*Math.cos(sa),y1=cy+R*Math.sin(sa),x2=cx+R*Math.cos(ea),y2=cy+R*Math.sin(ea),lg=a>Math.PI?1:0;
-      if(v>0) paths+=`<path d="M${cx},${cy} L${x1},${y1} A${R},${R} 0 ${lg},1 ${x2},${y2} Z" fill="${colors[i]}" opacity="0.9"/>`;
-      legH+=`<div class="leg-row"><div class="leg-dot" style="background:${colors[i]}"></div><span>${labels[i]}</span><span class="leg-val">${pcts[i]}%</span></div>`;
-      sa=ea;
+  const v1d = await fbGet('votes/v1');
+  const v2d = await fbGet('votes/v2');
+
+  function cnt(d){
+    const r={yes:0,no:0,idk:0};
+    if(!d) return r;
+    Object.values(d).forEach(x=>{
+      if(x.answer==='yes') r.yes++;
+      else if(x.answer==='no') r.no++;
+      else if(x.answer==='idk') r.idk++;
     });
-    return `<div class="chart-item"><div class="chart-label-top">${labelTop} (${total}명)</div><svg class="pie-svg" width="120" height="120" viewBox="0 0 120 120">${paths}<circle cx="${cx}" cy="${cy}" r="26" fill="var(--surface)"/><text class="pie-ct" x="${cx}" y="${cy-4}">${total}명</text><text class="pie-ct" x="${cx}" y="${cy+9}">응답</text></svg><div class="chart-legend">${legH}</div></div>`;
+    return r;
   }
-  document.getElementById('chartWrap').innerHTML=makePie(c1,t1,'📊 발표 전')+'<div class="vsep"></div>'+makePie(c2,t2,'📊 발표 후');
-  const d=Math.round(c2.no/t2*100)-Math.round(c1.no/t1*100);
-  document.getElementById('chNum').textContent=(d>0?'+':'')+d+'%p';
+
+  const c1=cnt(v1d), c2=cnt(v2d);
+  const t1=Math.max(c1.yes+c1.no+c1.idk,1);
+  const t2=Math.max(c2.yes+c2.no+c2.idk,1);
+
+  const PIE_COLORS = ['#e8c547','#e85447','#7b8cde'];
+  const PIE_LABELS = ['합리적이다','합리적이지 않다','모르겠다'];
+
+  function makePie(data, total, labelTop){
+    const vals = [data.yes, data.no, data.idk];
+    const pcts = vals.map(v => total > 0 ? Math.round(v/total*100) : 0);
+    const SIZE = 130, R = 52, cx = 65, cy = 65;
+
+    // 0이 하나도 없는 경우 전체 원 그리기
+    const allZero = vals.every(v => v === 0);
+
+    let paths = '';
+    if(allZero){
+      paths = `<circle cx="${cx}" cy="${cy}" r="${R}" fill="#333344" opacity="0.5"/>`;
+    } else {
+      let startAngle = -Math.PI / 2;
+      vals.forEach((v, i) => {
+        if(v === 0) return;
+        const angle = (v / total) * 2 * Math.PI;
+        // 100%인 경우 완전한 원
+        if(v === total){
+          paths += `<circle cx="${cx}" cy="${cy}" r="${R}" fill="${PIE_COLORS[i]}" opacity="0.9"/>`;
+          return;
+        }
+        const endAngle = startAngle + angle;
+        const x1 = cx + R * Math.cos(startAngle);
+        const y1 = cy + R * Math.sin(startAngle);
+        const x2 = cx + R * Math.cos(endAngle);
+        const y2 = cy + R * Math.sin(endAngle);
+        const large = angle > Math.PI ? 1 : 0;
+        paths += `<path d="M${cx},${cy} L${x1.toFixed(2)},${y1.toFixed(2)} A${R},${R} 0 ${large},1 ${x2.toFixed(2)},${y2.toFixed(2)} Z" fill="${PIE_COLORS[i]}" opacity="0.9"/>`;
+        startAngle = endAngle;
+      });
+    }
+
+    const legH = PIE_LABELS.map((lbl, i) =>
+      `<div class="leg-row"><div class="leg-dot" style="background:${PIE_COLORS[i]}"></div><span style="font-size:10px">${lbl}</span><span class="leg-val">${pcts[i]}%</span></div>`
+    ).join('');
+
+    return `<div class="chart-item">
+      <div class="chart-label-top">${labelTop}<br><span style="font-size:10px;color:var(--dim)">(${total}명 응답)</span></div>
+      <svg class="pie-svg" width="${SIZE}" height="${SIZE}" viewBox="0 0 ${SIZE} ${SIZE}" xmlns="http://www.w3.org/2000/svg">
+        ${paths}
+        <circle cx="${cx}" cy="${cy}" r="28" fill="var(--surface)"/>
+        <text class="pie-ct" x="${cx}" y="${cy-6}">${total}명</text>
+        <text class="pie-ct" x="${cx}" y="${cy+9}">응답</text>
+      </svg>
+      <div class="chart-legend">${legH}</div>
+    </div>`;
+  }
+
+  document.getElementById('chartWrap').innerHTML =
+    makePie(c1, t1, '📊 발표 전') +
+    '<div class="vsep"></div>' +
+    makePie(c2, t2, '📊 발표 후');
+
+  const diff = Math.round(c2.no/t2*100) - Math.round(c1.no/t1*100);
+  document.getElementById('chNum').textContent = (diff > 0 ? '+' : '') + diff + '%p';
 }
 
+// ── 메모 (번호 포함) ──────────────────────────
 async function loadMemos(){
-  const data=await fbGet('memos'); if(!data)return;
-  const list=Object.values(data).sort((a,b)=>(a.time||'').localeCompare(b.time||''));
-  document.getElementById('memoList').innerHTML=list.map(m=>`<div class="mitem"><div class="mauth">${m.name}</div><div>${m.memo}</div></div>`).join('');
+  const data = await fbGet('memos');
+  if(!data) return;
+  const list = Object.values(data).sort((a,b)=>(a.time||'').localeCompare(b.time||''));
+  document.getElementById('memoList').innerHTML = list.map((m, i) =>
+    `<div class="mitem">
+      <div class="mnum">${i+1}번</div>
+      <div class="mauth">${m.name}</div>
+      <div>${m.memo}</div>
+    </div>`
+  ).join('');
 }
 
 function toggleMemo(){
-  const s=document.getElementById('memoSlide'),o=s.classList.contains('open');
+  const s = document.getElementById('memoSlide');
+  const isOpen = s.classList.contains('open');
   s.classList.toggle('open');
-  document.getElementById('memoTrigger').textContent=o?'💬 나의 한 줄 남기기':'✏️ 입력 닫기';
-  if(!o)setTimeout(()=>document.getElementById('memoTxt').focus(),420);
+  document.getElementById('memoTrigger').textContent = isOpen ? '💬 나의 한 줄 남기기' : '✏️ 입력 닫기';
+  if(!isOpen) setTimeout(()=>document.getElementById('memoTxt').focus(), 420);
 }
 
 async function doMemo(){
-  const txt=document.getElementById('memoTxt').value.trim(); if(!txt)return;
-  await fbPost('memos',{name:nick,memo:txt});
-  document.getElementById('memoTxt').value='';
+  if(memoSubmitted){ return; }
+  const txt = document.getElementById('memoTxt').value.trim();
+  if(!txt) return;
+  memoSubmitted = true;
+  await fbPost('memos', {name:nick, memo:txt});
+  document.getElementById('memoTxt').value = '';
   document.getElementById('memoSlide').classList.remove('open');
-  document.getElementById('memoTrigger').textContent='💬 나의 한 줄 남기기';
+  document.getElementById('memoTrigger').textContent = '✅ 메모 제출 완료';
+  document.getElementById('memoTrigger').disabled = true;
   loadMemos();
 }
 
-window.onload=async()=>{
-  const saved=localStorage.getItem('vNick');
+// ── 페이지 로드 ───────────────────────────────
+window.onload = async () => {
+  const saved = localStorage.getItem('vNick');
   if(saved){
-    nick=saved;
-    // 서버 phase 확인 후 적절한 화면으로
-    const sp=await fbGet('config/phase');
-    phase=sp||1;
-    if(phase>=5){ await buildChart(); go('s5'); loadMemos(); }
-    else if(phase>=4){ go('s4'); startPolling(); }
-    else if(phase>=3){ go('s3'); startPolling(); }
-    else if(phase>=2){ go('s2'); startPolling(); }
-    else{ go('s1'); startPolling(); }
+    nick = saved;
+    const sp = await fbGet('config/phase');
+    serverPhase = sp || 0;
+    const lv2 = localStorage.getItem('v2');
+
+    if(lv2){
+      // 이미 2차 투표 완료
+      v2done = true;
+      localPhase = 5;
+      if(serverPhase >= 5){
+        await buildChart(); go('s5'); loadMemos();
+      } else {
+        go('sThanks'); startPolling();
+      }
+    } else if(localStorage.getItem('v1')){
+      // 1차 완료, 2차 미완료
+      localPhase = 3;
+      if(serverPhase >= 5){ await buildChart(); go('s5'); loadMemos(); }
+      else if(serverPhase >= 4){ localPhase=4; go('s4'); startPolling(); }
+      else { go('s3'); startPolling(); }
+    } else {
+      // 아직 투표 안 함
+      localPhase = 2;
+      if(serverPhase >= 5){ await buildChart(); go('s5'); loadMemos(); }
+      else if(serverPhase >= 4){ go('s4'); startPolling(); }
+      else if(serverPhase >= 3){ go('s3'); startPolling(); }
+      else { go('s2'); startPolling(); }
+    }
   }
 };
 </script>
