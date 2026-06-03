@@ -109,6 +109,15 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 .modal-cancel{flex:1;background:transparent;border:1px solid var(--border);border-radius:10px;padding:12px;color:var(--dim);font-size:14px;cursor:pointer;font-family:'Noto Sans KR',sans-serif;}
 .modal-confirm-danger{flex:2;background:var(--err);border:none;border-radius:10px;padding:12px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;}
 
+.winner-log-item{
+  display:flex;align-items:center;gap:8px;
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:8px;padding:8px 10px;font-size:11px;
+}
+.wli-time{color:var(--dim);white-space:nowrap;flex-shrink:0;}
+.wli-names{color:var(--text);flex:1;line-height:1.5;}
+.wli-del{background:transparent;border:none;color:var(--dim);cursor:pointer;font-size:14px;padding:0 2px;flex-shrink:0;}
+.wli-del:hover{color:var(--err);}
 .toast{position:fixed;top:16px;left:50%;transform:translateX(-50%);background:var(--ok);color:#000;font-size:13px;font-weight:700;padding:10px 20px;border-radius:20px;z-index:999999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;}
 .toast.show{opacity:1;}
 .divider{height:1px;background:var(--border);margin:12px 0;}
@@ -147,6 +156,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
   <div class="section">
     <div class="sec-title">🎛️ 진행 단계 제어</div>
     <div class="phase-btns">
+      <button class="pbtn" id="pb2" onclick="setPhase(2)"><span>📊 0단계 — 1차 투표 열기</span></button>
       <button class="pbtn" id="pb4" onclick="setPhase(4)"><span>📊 1단계 — 2차 투표 열기</span></button>
       <button class="pbtn" id="pb5" onclick="setPhase(5)"><span>📈 2단계 — 결과 공개</span></button>
       <button class="pbtn" id="pb6" onclick="setPhase(6)"><span>🎰 3단계 — 추첨 화면 열기</span></button>
@@ -156,15 +166,18 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
         <input id="lotterySlogan" type="text" placeholder="슬로건 (예: 예측을 의심하고, 역량을 선택하라)" value="예측을 의심하고, 역량을 선택하라"/>
         <button class="spin-btn" id="spinBtn" onclick="startSpin()">🎰 추첨 시작!</button>
       </div>
-      <button class="pbtn" id="pb7" onclick="setPhase(7)"><span>🏁 6단계 — 종료 화면</span></button>
+      <button class="pbtn" id="pb7" onclick="setPhase(7)"><span>🏁 4단계 — 종료 화면</span></button>
     </div>
   </div>
 
   <!-- 재투표 허용 -->
   <div class="section">
     <div class="sec-title">🔄 재투표 허용</div>
-    <div style="font-size:12px;color:var(--dim);margin-bottom:12px;line-height:1.6;">이름은 유지하고 투표만 다시 할 수 있게 합니다. 오투표 수정 시 사용하세요.</div>
-    <button class="warn-btn" onclick="allowRevote()">🔄 모든 학생 재투표 허용</button>
+    <div style="font-size:12px;color:var(--dim);margin-bottom:12px;line-height:1.6;">이름은 유지하고 해당 차수 투표만 다시 할 수 있게 합니다.</div>
+    <div style="display:flex;gap:8px;">
+      <button class="warn-btn" style="flex:1;" onclick="allowRevote(1)">🔄 1차 재투표 허용</button>
+      <button class="warn-btn" style="flex:1;" onclick="allowRevote(2)">🔄 2차 재투표 허용</button>
+    </div>
   </div>
 
   <!-- 실시간 현황 -->
@@ -195,6 +208,17 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
   <div class="section">
     <div class="sec-title">✏️ 한 줄 메모</div>
     <div class="mlist" id="adminMemoList"><div style="color:var(--dim);font-size:12px;">없음</div></div>
+  </div>
+
+  <!-- 당첨자 기록 -->
+  <div class="section" id="winnersLogSection">
+    <div class="sec-title" style="display:flex;align-items:center;justify-content:space-between;">
+      <span>🏆 당첨자 기록</span>
+      <button onclick="clearAllWinners()" style="font-size:11px;background:transparent;border:1px solid var(--border);border-radius:6px;padding:3px 8px;color:var(--dim);cursor:pointer;">전체 삭제</button>
+    </div>
+    <div id="winnersLog" style="display:flex;flex-direction:column;gap:6px;max-height:200px;overflow-y:auto;">
+      <div style="color:var(--dim);font-size:12px;">당첨자 기록 없음</div>
+    </div>
   </div>
 
   <!-- 위험 구역 -->
@@ -242,12 +266,13 @@ function doLogin(){
   document.getElementById('loginWrap').style.display='none';
   document.getElementById('dashboard').style.display='block';
   refreshAll();
+  loadWinnersLog();
   refreshTimer=setInterval(refreshAll,2500);
   // 메모는 1초마다 별도 갱신
   memoTimer=setInterval(refreshMemoOnly,1000);
 }
 
-const phaseLabels={2:'1차 투표 중',3:'발표 중',4:'2차 투표 중',5:'결과 공개',6:'추첨 화면',7:'종료'};
+const phaseLabels={0:'초기',2:'1차 투표 중',3:'발표 중',4:'2차 투표 중',5:'결과 공개',6:'추첨 화면',7:'종료'};
 
 async function setPhase(p){
   // forcePhase와 phase 동시 적용
@@ -261,7 +286,7 @@ async function setPhase(p){
 }
 
 function updatePhaseUI(){
-  [4,5,6,7].forEach(i=>{
+  [2,4,5,6,7].forEach(i=>{
     const b=document.getElementById('pb'+i);if(!b)return;
     b.classList.toggle('cur',i===currentPhase);
     // 현재 단계 태그
@@ -285,12 +310,56 @@ async function startSpin(){
   await fbPut('config/lotterySlogan',slogan);
   await fbPut('config/spinSignal',Date.now().toString());
   showToast('🎰 추첨 시작! 슬롯머신이 작동합니다.','var(--warn)');
+  // 당첨자 기록 저장
+  await saveWinnersLog(winners, slogan);
   setTimeout(()=>{btn.disabled=false;btn.textContent='🎰 추첨 시작!';},8000);
 }
 
-async function allowRevote(){
-  await fbPut('config/revoteSignal',Date.now().toString());
-  showToast('🔄 재투표 허용 신호 전송','var(--warn)');
+// ── 당첨자 기록 ──────────────────────────────
+async function saveWinnersLog(winners, slogan){
+  const now = new Date();
+  const pad = n => String(n).padStart(2,'0');
+  const h = now.getHours();
+  const ampm = h >= 12 ? 'pm' : 'am';
+  const h12 = h % 12 || 12;
+  const ts = `${now.getFullYear()}.${pad(now.getMonth()+1)}.${pad(now.getDate())}. ${ampm} ${pad(h12)}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+  const key = `w_${Date.now()}`;
+  await fbPut(`winnersLog/${key}`, { ts, names: winners.join(', '), key });
+  loadWinnersLog();
+}
+
+async function loadWinnersLog(){
+  const data = await fbGet('winnersLog');
+  const el = document.getElementById('winnersLog');
+  if(!data || Object.keys(data).length === 0){
+    el.innerHTML = '<div style="color:var(--dim);font-size:12px;">당첨자 기록 없음</div>';
+    return;
+  }
+  const sorted = Object.values(data).sort((a,b)=>(a.ts||'').localeCompare(b.ts||''));
+  el.innerHTML = sorted.map(w =>
+    `<div class="winner-log-item" id="wli_${w.key}">
+      <span class="wli-time">${w.ts}</span>
+      <span class="wli-names">${w.names}</span>
+      <button class="wli-del" onclick="deleteWinnerLog('${w.key}')">✕</button>
+    </div>`
+  ).join('');
+}
+
+async function deleteWinnerLog(key){
+  await fbDelete(`winnersLog/${key}`);
+  loadWinnersLog();
+}
+
+async function clearAllWinners(){
+  await fbDelete('winnersLog');
+  document.getElementById('winnersLog').innerHTML = '<div style="color:var(--dim);font-size:12px;">당첨자 기록 없음</div>';
+}
+
+// ── 재투표 허용 (1차/2차 분리) ──
+async function allowRevote(target){
+  await fbPut('config/revoteTarget', target);
+  await fbPut('config/revoteSignal', Date.now().toString());
+  showToast(`🔄 ${target}차 재투표 허용 신호 전송`, 'var(--warn)');
 }
 async function resetCacheOnly(){
   await fbPut('config/resetSignal',Date.now().toString());
@@ -376,7 +445,7 @@ function closeResetModal(){document.getElementById('resetModal').classList.remov
 async function confirmReset(){
   if(document.getElementById('resetConfirmInput').value.trim()!=='DELETE'){document.getElementById('resetErr').textContent='"DELETE"를 입력하세요.';return;}
   closeResetModal();
-  await Promise.all([fbDelete('participants'),fbDelete('votes'),fbDelete('memos'),fbDelete('online')]);
+  await Promise.all([fbDelete('participants'),fbDelete('votes'),fbDelete('memos'),fbDelete('online'),fbDelete('winnersLog')]);
   await fbPut('config',{phase:0,forcePhase:null,resetSignal:Date.now().toString(),revoteSignal:null,spinSignal:null});
   currentPhase=0;updatePhaseUI();refreshAll();
   showToast('🗑️ 전체 초기화 완료','var(--err)');
