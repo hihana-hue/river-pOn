@@ -15,47 +15,54 @@
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
-
-/* 로그인 */
 .login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;}
 .login-box{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:36px 28px;width:min(360px,100%);display:flex;flex-direction:column;gap:16px;}
 .login-logo{font-family:'Noto Serif KR',serif;font-size:11px;color:var(--accent);text-align:center;line-height:1.7;}
 .login-logo strong{font-size:18px;display:block;margin-bottom:4px;}
-.login-title{font-size:14px;color:var(--dim);text-align:center;}
 .login-input{width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:12px;padding:16px;color:var(--text);font-size:18px;font-family:'Noto Serif KR',serif;text-align:center;letter-spacing:.2em;}
 .login-input:focus{outline:none;border-color:var(--accent);}
 .login-err{font-size:12px;color:var(--err);text-align:center;min-height:16px;}
-.login-btn{width:100%;background:var(--accent);color:#fff;border:none;border-radius:12px;padding:15px;font-size:15px;font-weight:700;font-family:'Noto Sans KR',sans-serif;cursor:pointer;transition:all .2s;}
-.login-btn:hover{background:var(--accent2);}
+.login-btn{width:100%;background:var(--accent);color:#fff;border:none;border-radius:12px;padding:15px;font-size:15px;font-weight:700;font-family:'Noto Sans KR',sans-serif;cursor:pointer;}
 
-/* 대시보드 */
 .dashboard{display:none;padding:16px 18px 30px;}
 .top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--border);}
 .top-logo{font-family:'Noto Serif KR',serif;font-size:12px;color:var(--accent);line-height:1.5;}
 .top-logo strong{font-size:14px;display:block;}
-.top-badge{font-size:11px;color:var(--dim);background:var(--surface2);padding:4px 10px;border-radius:20px;border:1px solid var(--border);}
+
+/* 접속자 수 크게 표시 */
+.user-count-box{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:20px;
+  margin-bottom:14px;
+  display:flex;align-items:center;gap:16px;
+}
+.ucb-num{
+  font-family:'Noto Serif KR',serif;
+  font-size:52px;font-weight:900;
+  color:var(--accent);
+  line-height:1;
+}
+.ucb-info{display:flex;flex-direction:column;gap:4px;}
+.ucb-label{font-size:14px;color:var(--text);font-weight:600;}
+.ucb-sub{font-size:12px;color:var(--dim);}
 
 .section{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:14px;}
-.sec-title{font-family:'Noto Serif KR',serif;font-size:13px;color:var(--accent);margin-bottom:14px;display:flex;align-items:center;gap:6px;}
+.sec-title{font-family:'Noto Serif KR',serif;font-size:13px;color:var(--accent);margin-bottom:14px;}
 
-/* 단계 */
-.phase-display{text-align:center;margin-bottom:16px;}
-.phase-num{font-family:'Noto Serif KR',serif;font-size:36px;font-weight:900;color:var(--accent);}
-.phase-label{font-size:14px;color:var(--dim);margin-top:4px;}
 .phase-btns{display:flex;flex-direction:column;gap:8px;}
-.pbtn{width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:12px;padding:14px 16px;color:var(--text);font-size:14px;font-weight:600;font-family:'Noto Sans KR',sans-serif;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:10px;}
+.pbtn{width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:12px;padding:14px 16px;color:var(--text);font-size:14px;font-weight:600;font-family:'Noto Sans KR',sans-serif;cursor:pointer;transition:all .2s;text-align:left;}
 .pbtn:hover{border-color:var(--accent);background:rgba(79,156,249,0.08);}
 .pbtn.active-phase{border-color:var(--accent);background:rgba(79,156,249,0.15);color:var(--accent);}
-.pbtn.active-phase::after{content:'◀ 현재';margin-left:auto;font-size:11px;color:var(--accent);}
+.pbtn.active-phase::after{content:'◀ 현재';float:right;font-size:11px;}
 
-/* 강제 화면 전환 */
+/* 강제 전환 */
 .force-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .fbtn{background:var(--surface2);border:1.5px solid rgba(232,197,71,0.3);border-radius:10px;padding:11px;color:var(--warn);font-size:12px;font-weight:700;font-family:'Noto Sans KR',sans-serif;cursor:pointer;transition:all .2s;text-align:center;}
 .fbtn:hover{background:rgba(232,197,71,0.1);}
-.fbtn.clear{border-color:rgba(255,255,255,0.1);color:var(--dim);}
-.fbtn.clear:hover{border-color:var(--border);color:var(--text);}
+.fbtn.clr{border-color:rgba(255,255,255,0.1);color:var(--dim);}
 
-/* 통계 */
 .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
 .stat-box{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;}
 .stat-num{font-family:'Noto Serif KR',serif;font-size:26px;font-weight:900;color:var(--ok);}
@@ -66,15 +73,14 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 .chart-item{display:flex;flex-direction:column;align-items:center;gap:8px;flex:1;}
 .chart-label-top{font-size:11px;color:var(--dim);font-weight:600;text-align:center;line-height:1.5;}
 .pie-svg{overflow:visible;}
-.pie-ct{font-family:'Noto Serif KR',serif;font-size:9px;fill:var(--dim);text-anchor:middle;}
+.pie-ct{font-size:9px;fill:var(--dim);text-anchor:middle;}
 .chart-legend{display:flex;flex-direction:column;gap:4px;width:100%;}
 .leg-row{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--text);}
 .leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
 .leg-val{margin-left:auto;font-weight:700;color:var(--warn);font-size:11px;}
 .vsep{width:1px;background:var(--border);align-self:stretch;}
 
-/* 참여자·메모 */
-.mlist{display:flex;flex-direction:column;gap:7px;max-height:240px;overflow-y:auto;}
+.mlist{display:flex;flex-direction:column;gap:7px;max-height:200px;overflow-y:auto;}
 .mitem{background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:9px 12px;font-size:12px;}
 .mnum{font-size:10px;color:var(--accent);font-weight:700;margin-bottom:2px;}
 .mauth{font-size:10px;color:var(--dim);margin-bottom:2px;}
@@ -83,6 +89,15 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 
 .refresh-btn{width:100%;background:transparent;border:1px solid var(--border);border-radius:10px;padding:10px;color:var(--dim);font-size:13px;cursor:pointer;font-family:'Noto Sans KR',sans-serif;margin-top:8px;transition:all .2s;}
 .refresh-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+/* 추첨 */
+.lottery-section{background:linear-gradient(135deg,rgba(232,197,71,0.05),rgba(79,156,249,0.05));border:1px solid rgba(232,197,71,0.25);border-radius:14px;padding:18px;margin-bottom:14px;}
+.lottery-sec-title{font-family:'Noto Serif KR',serif;font-size:14px;color:var(--warn);margin-bottom:12px;}
+.lottery-input{width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:11px 13px;color:var(--text);font-size:13px;font-family:'Noto Sans KR',sans-serif;margin-bottom:10px;}
+.lottery-input:focus{outline:none;border-color:var(--warn);}
+.lottery-btn{width:100%;background:var(--warn);color:#000;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:700;font-family:'Noto Sans KR',sans-serif;cursor:pointer;transition:all .2s;}
+.lottery-btn:hover{background:#c7a832;}
+.lottery-desc{font-size:12px;color:var(--dim);margin-bottom:10px;line-height:1.6;}
 
 /* 위험 구역 */
 .danger-zone{background:rgba(232,84,71,0.05);border:1px solid rgba(232,84,71,0.25);border-radius:14px;padding:18px;margin-bottom:14px;}
@@ -94,7 +109,6 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 .warn-btn{width:100%;background:transparent;border:2px solid var(--warn);border-radius:12px;padding:13px;color:var(--warn);font-size:14px;font-weight:700;font-family:'Noto Sans KR',sans-serif;cursor:pointer;transition:all .2s;}
 .warn-btn:hover{background:rgba(232,197,71,0.08);}
 
-/* 모달 */
 .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:99999;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
 .modal-bg.open{display:flex;}
 .modal{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:26px 22px;width:min(340px,90vw);display:flex;flex-direction:column;gap:12px;animation:fi .25s ease;}
@@ -107,26 +121,21 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 .modal-btns{display:flex;gap:8px;}
 .modal-cancel{flex:1;background:transparent;border:1px solid var(--border);border-radius:10px;padding:12px;color:var(--dim);font-size:14px;cursor:pointer;font-family:'Noto Sans KR',sans-serif;}
 .modal-confirm-danger{flex:2;background:var(--err);border:none;border-radius:10px;padding:12px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;}
-
-.spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:6px;}
-@keyframes spin{to{transform:rotate(360deg)}}
-.divider{height:1px;background:var(--border);margin:12px 0;}
-
 .toast{position:fixed;top:16px;left:50%;transform:translateX(-50%);background:var(--ok);color:#000;font-size:13px;font-weight:700;padding:10px 20px;border-radius:20px;z-index:999999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;}
 .toast.show{opacity:1;}
+.divider{height:1px;background:var(--border);margin:12px 0;}
 ::-webkit-scrollbar{width:3px;}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
 </style>
 </head>
 <body>
-
 <div class="toast" id="toast"></div>
 
 <!-- 로그인 -->
 <div class="login-wrap" id="loginWrap">
   <div class="login-box">
     <div class="login-logo"><strong>프로젝트ON</strong>관리자 대시보드</div>
-    <div class="login-title">🔐 관리자 비밀번호를 입력하세요</div>
+    <div style="font-size:14px;color:var(--dim);text-align:center;">🔐 관리자 비밀번호</div>
     <input class="login-input" id="loginPw" type="password" placeholder="••••" maxlength="10"
       onkeydown="if(event.key==='Enter')doLogin()"/>
     <div class="login-err" id="loginErr"></div>
@@ -138,16 +147,20 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 <div class="dashboard" id="dashboard">
   <div class="top-bar">
     <div class="top-logo"><strong>프로젝트ON 관리자</strong>누가 당신의 진로를 결정하는가</div>
-    <span class="top-badge" id="topBadge">단계 0</span>
   </div>
 
-  <!-- 단계 제어 -->
+  <!-- 현재 접속자 수 (크게) -->
+  <div class="user-count-box">
+    <div class="ucb-num" id="userCountBig">0</div>
+    <div class="ucb-info">
+      <div class="ucb-label">현재 접속 참여자</div>
+      <div class="ucb-sub">이름을 입력하고 입장한 학생 수</div>
+    </div>
+  </div>
+
+  <!-- 진행 단계 제어 -->
   <div class="section">
     <div class="sec-title">🎛️ 진행 단계 제어</div>
-    <div class="phase-display">
-      <div class="phase-num" id="phaseNum">0</div>
-      <div class="phase-label" id="phaseLabel">초기 상태</div>
-    </div>
     <div class="phase-btns">
       <button class="pbtn" id="pb2" onclick="setPhase(2)">📊 1단계 — 1차 투표 열기</button>
       <button class="pbtn" id="pb3" onclick="setPhase(3)">🎤 2단계 — 발표 시작 (투표 잠금)</button>
@@ -159,26 +172,20 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
   <!-- 강제 화면 전환 -->
   <div class="section">
     <div class="sec-title">🔀 사용자 화면 강제 전환</div>
-    <div style="font-size:12px;color:var(--dim);margin-bottom:12px;line-height:1.6;">
-      이미 투표 완료한 학생도 포함하여 모든 사용자 화면을 강제로 전환합니다.<br>
-      단계 제어와 별개로 작동합니다.
-    </div>
+    <div style="font-size:12px;color:var(--dim);margin-bottom:12px;line-height:1.6;">투표 완료 여부와 무관하게 모든 사용자 화면을 강제 전환합니다.</div>
     <div class="force-btns">
-      <button class="fbtn" onclick="forceScreen(2)">📊 1차 투표 화면</button>
-      <button class="fbtn" onclick="forceScreen(3)">🎤 발표 대기 화면</button>
-      <button class="fbtn" onclick="forceScreen(4)">📊 2차 투표 화면</button>
+      <button class="fbtn" onclick="forceScreen(2)">📊 1차 투표</button>
+      <button class="fbtn" onclick="forceScreen(3)">🎤 발표 대기</button>
+      <button class="fbtn" onclick="forceScreen(4)">📊 2차 투표</button>
       <button class="fbtn" onclick="forceScreen(5)">📈 결과 화면</button>
-      <button class="fbtn clear" onclick="clearForce()" style="grid-column:span 2;">✕ 강제 전환 해제 (일반 모드 복귀)</button>
+      <button class="fbtn clr" onclick="clearForce()" style="grid-column:span 2;">✕ 강제 전환 해제</button>
     </div>
   </div>
 
   <!-- 재투표 허용 -->
   <div class="section">
     <div class="sec-title">🔄 재투표 허용</div>
-    <div style="font-size:12px;color:var(--dim);margin-bottom:12px;line-height:1.6;">
-      학생들의 투표 캐시를 초기화합니다. 이름은 유지되고 투표만 다시 할 수 있습니다.<br>
-      오투표 수정이나 재실험 시 사용하세요.
-    </div>
+    <div style="font-size:12px;color:var(--dim);margin-bottom:12px;line-height:1.6;">이름은 유지하고 투표만 다시 할 수 있게 합니다.</div>
     <button class="warn-btn" onclick="allowRevote()">🔄 모든 학생 재투표 허용</button>
   </div>
 
@@ -186,19 +193,19 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
   <div class="section">
     <div class="sec-title">👥 실시간 현황</div>
     <div class="stat-grid">
-      <div class="stat-box"><div class="stat-num" id="statJoined">0</div><div class="stat-label">입장 인원</div></div>
       <div class="stat-box"><div class="stat-num" id="statV1">0</div><div class="stat-label">1차 투표 완료</div></div>
       <div class="stat-box"><div class="stat-num" id="statV2">0</div><div class="stat-label">2차 투표 완료</div></div>
       <div class="stat-box"><div class="stat-num" id="statMemo">0</div><div class="stat-label">메모 제출</div></div>
+      <div class="stat-box"><div class="stat-num" id="statPhase">0</div><div class="stat-label">현재 단계</div></div>
     </div>
     <button class="refresh-btn" onclick="refreshAll()">🔄 새로고침</button>
   </div>
 
   <!-- 투표 결과 -->
   <div class="section">
-    <div class="sec-title">📊 투표 결과 비교</div>
+    <div class="sec-title">📊 투표 결과</div>
     <div class="chart-wrap" id="adminChart">
-      <div style="text-align:center;color:var(--dim);padding:16px;font-size:12px;">투표 후 결과가 여기에 표시됩니다.</div>
+      <div style="text-align:center;color:var(--dim);padding:16px;font-size:12px;">투표 후 결과가 표시됩니다.</div>
     </div>
   </div>
 
@@ -210,20 +217,31 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 
   <!-- 메모 -->
   <div class="section">
-    <div class="sec-title">✏️ 한 줄 메모 목록</div>
-    <div class="mlist" id="adminMemoList"><div style="color:var(--dim);font-size:12px;">아직 메모가 없습니다.</div></div>
+    <div class="sec-title">✏️ 한 줄 메모</div>
+    <div class="mlist" id="adminMemoList"><div style="color:var(--dim);font-size:12px;">아직 없습니다.</div></div>
+  </div>
+
+  <!-- 🎰 추첨 -->
+  <div class="lottery-section">
+    <div class="lottery-sec-title">🎰 슬롯머신 추첨</div>
+    <div class="lottery-desc">
+      참여자 중 3명을 추첨합니다. 버튼을 누르면 사용자 화면과 관리자 화면에 동시에 슬롯머신이 시작됩니다.
+    </div>
+    <input class="lottery-input" id="lotterySlogan" type="text"
+      placeholder="슬로건 입력 (예: 예측을 의심하고, 역량을 선택하라)"
+      value="예측을 의심하고, 역량을 선택하라"/>
+    <button class="lottery-btn" onclick="startLottery()">🎰 추첨 시작!</button>
   </div>
 
   <!-- 위험 구역 -->
   <div class="danger-zone">
     <div class="danger-title">⚠️ 위험 구역</div>
     <div class="danger-desc">
-      아래 버튼은 되돌릴 수 없습니다.<br>
-      <strong>전체 초기화</strong>: 모든 투표·참여자·메모 삭제 + 학생 캐시 자동 클리어<br>
-      <strong>캐시만 리셋</strong>: Firebase 데이터는 유지하고 학생 브라우저 캐시만 클리어
+      <strong>캐시 리셋</strong>: 데이터 유지 + 학생 브라우저 캐시만 클리어<br>
+      <strong>전체 초기화</strong>: 모든 데이터 삭제 + 캐시 클리어
     </div>
     <div class="danger-btns">
-      <button class="warn-btn" onclick="resetCacheOnly()">🧹 학생 캐시만 리셋 (데이터 유지)</button>
+      <button class="warn-btn" onclick="resetCacheOnly()">🧹 학생 캐시만 리셋</button>
       <button class="danger-btn" onclick="openResetModal()">🗑️ 전체 데이터 + 캐시 초기화</button>
     </div>
   </div>
@@ -232,169 +250,146 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 <!-- 초기화 모달 -->
 <div class="modal-bg" id="resetModal">
   <div class="modal">
-    <div class="modal-title">⚠️ 정말 초기화하시겠습니까?</div>
-    <div class="modal-sub">모든 데이터가 영구 삭제되고<br>학생 브라우저도 자동으로 리셋됩니다.<br><br>확인을 위해 <strong style="color:var(--err)">DELETE</strong> 를 입력하세요.</div>
+    <div class="modal-title">⚠️ 전체 초기화</div>
+    <div class="modal-sub">모든 데이터가 삭제되고<br>학생 브라우저도 리셋됩니다.<br><br><strong style="color:var(--err)">DELETE</strong> 를 입력하세요.</div>
     <input class="modal-input" id="resetConfirmInput" type="text" placeholder="DELETE"
       onkeydown="if(event.key==='Enter')confirmReset()"/>
     <div class="modal-err" id="resetErr"></div>
     <div class="modal-btns">
       <button class="modal-cancel" onclick="closeResetModal()">취소</button>
-      <button class="modal-confirm-danger" onclick="confirmReset()">초기화 실행</button>
+      <button class="modal-confirm-danger" onclick="confirmReset()">초기화</button>
     </div>
   </div>
 </div>
 
 <script>
-const FB = 'https://river-projecton-default-rtdb.asia-southeast1.firebasedatabase.app';
-const ADMIN_PW = '0000';
-let currentPhase = 0;
-let refreshTimer = null;
+const FB='https://river-projecton-default-rtdb.asia-southeast1.firebasedatabase.app';
+const ADMIN_PW='0000';
+let currentPhase=0, refreshTimer=null;
 
 async function fbGet(p){ try{ const r=await fetch(`${FB}/${p}.json`); return await r.json(); }catch(e){ return null; } }
 async function fbPut(p,d){ try{ await fetch(`${FB}/${p}.json`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)}); }catch(e){} }
 async function fbDelete(p){ try{ await fetch(`${FB}/${p}.json`,{method:'DELETE'}); }catch(e){} }
 
-function showToast(msg, color='var(--ok)'){
+function showToast(msg,color='var(--ok)'){
   const t=document.getElementById('toast');
   t.textContent=msg; t.style.background=color;
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 2500);
+  t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500);
 }
 
 function doLogin(){
   const pw=document.getElementById('loginPw').value;
-  const err=document.getElementById('loginErr');
-  if(pw!==ADMIN_PW){ err.textContent='비밀번호가 틀렸습니다.'; document.getElementById('loginPw').value=''; return; }
-  err.textContent='';
+  if(pw!==ADMIN_PW){ document.getElementById('loginErr').textContent='비밀번호가 틀렸습니다.'; document.getElementById('loginPw').value=''; return; }
+  document.getElementById('loginErr').textContent='';
   document.getElementById('loginWrap').style.display='none';
   document.getElementById('dashboard').style.display='block';
   refreshAll();
-  refreshTimer=setInterval(refreshAll, 2500);
+  refreshTimer=setInterval(refreshAll,2500);
 }
 
-const phaseLabels={0:'초기 상태',2:'1차 투표 진행 중',3:'발표 진행 중',4:'2차 투표 진행 중',5:'결과 공개 중'};
+const phaseLabels={0:'초기',2:'1차 투표 중',3:'발표 중',4:'2차 투표 중',5:'결과 공개'};
 
 async function setPhase(p){
-  await fbPut('config/phase', p);
-  await fbPut('config/forcePhase', null); // 강제 전환 해제
-  currentPhase=p;
-  updatePhaseUI();
-  showToast(`✅ ${phaseLabels[p]||'단계 '+p}으로 전환했습니다.`);
+  await fbPut('config/phase',p);
+  currentPhase=p; updatePhaseUI();
+  showToast(`✅ ${phaseLabels[p]||p+'단계'}으로 전환`);
   refreshAll();
 }
 
 function updatePhaseUI(){
-  document.getElementById('phaseNum').textContent=currentPhase;
-  document.getElementById('phaseLabel').textContent=phaseLabels[currentPhase]||'';
-  document.getElementById('topBadge').textContent=`단계 ${currentPhase} — ${phaseLabels[currentPhase]||''}`;
-  [2,3,4,5].forEach(i=>{
-    const btn=document.getElementById('pb'+i);
-    if(btn) btn.classList.toggle('active-phase', i===currentPhase);
-  });
+  [2,3,4,5].forEach(i=>{ const b=document.getElementById('pb'+i); if(b)b.classList.toggle('active-phase',i===currentPhase); });
+  document.getElementById('statPhase').textContent=currentPhase;
 }
 
-// 강제 화면 전환
 async function forceScreen(phase){
-  await fbPut('config/forcePhase', phase);
-  showToast(`🔀 모든 사용자를 ${phaseLabels[phase]||phase+'단계'} 화면으로 전환했습니다.`, 'var(--warn)');
+  await fbPut('config/forcePhase',phase);
+  showToast(`🔀 강제 전환: ${phaseLabels[phase]||phase+'단계'}`,`var(--warn)`);
 }
+async function clearForce(){ await fbPut('config/forcePhase',null); showToast('✅ 강제 전환 해제'); }
+async function allowRevote(){ await fbPut('config/revoteSignal',Date.now().toString()); showToast('🔄 재투표 허용 신호 전송','var(--warn)'); }
+async function resetCacheOnly(){ await fbPut('config/resetSignal',Date.now().toString()); showToast('🧹 캐시 리셋 신호 전송','var(--warn)'); }
 
-async function clearForce(){
-  await fbPut('config/forcePhase', null);
-  showToast('✅ 강제 전환 해제 — 일반 모드로 복귀했습니다.');
-}
-
-// 재투표 허용
-async function allowRevote(){
-  const sig = Date.now().toString();
-  await fbPut('config/revoteSignal', sig);
-  showToast('🔄 재투표 허용 신호를 보냈습니다. 학생들이 다시 투표할 수 있습니다.', 'var(--warn)');
-}
-
-// 캐시만 리셋 (데이터 유지)
-async function resetCacheOnly(){
-  const sig = Date.now().toString();
-  await fbPut('config/resetSignal', sig);
-  showToast('🧹 학생 캐시 리셋 신호를 보냈습니다. 학생들이 처음 화면으로 이동합니다.', 'var(--warn)');
-}
-
-async function refreshAll(){
-  const cfg=await fbGet('config')||{};
-  const sp=cfg.phase||0;
-  if(sp!==undefined){ currentPhase=sp; updatePhaseUI(); }
-
+// ── 추첨 시작 ────────────────────────────────
+async function startLottery(){
+  const slogan=document.getElementById('lotterySlogan').value.trim()||'예측을 의심하고, 역량을 선택하라';
+  // 참여자 목록에서 랜덤 3명 선택
   const parts=await fbGet('participants');
+  let names=parts?Object.values(parts).map(p=>p.name):[];
+  if(names.length===0){ showToast('⚠️ 참여자가 없습니다.','var(--err)'); return; }
+  // 랜덤 셔플 후 3명 선택
+  const shuffled=[...names].sort(()=>Math.random()-0.5);
+  const winners=shuffled.slice(0,Math.min(3,shuffled.length));
+  // 3명 미만이면 반복
+  while(winners.length<3) winners.push(winners[winners.length-1]);
+  // Firebase에 추첨 신호 저장
+  await fbPut('config/lotterySignal',Date.now().toString());
+  await fbPut('config/lotteryWinners',winners);
+  await fbPut('config/lotterySlogan',slogan);
+  showToast('🎰 추첨 시작! 사용자 화면에 슬롯머신이 표시됩니다.','var(--warn)');
+}
+
+// ── refreshAll (Promise.all 병렬) ─────────────
+async function refreshAll(){
+  const [cfg,parts,v1,v2,memos]=await Promise.all([
+    fbGet('config'),
+    fbGet('participants'),
+    fbGet('votes/v1'),
+    fbGet('votes/v2'),
+    fbGet('memos')
+  ]);
+
+  // 접속자 수 (크게)
   const partCount=parts?Object.keys(parts).length:0;
-  document.getElementById('statJoined').textContent=partCount;
+  document.getElementById('userCountBig').textContent=partCount;
+
+  // 단계
+  const sp=(cfg&&cfg.phase)||0;
+  if(sp!==currentPhase){ currentPhase=sp; updatePhaseUI(); }
+
+  // 통계
+  document.getElementById('statV1').textContent=v1?Object.keys(v1).length:0;
+  document.getElementById('statV2').textContent=v2?Object.keys(v2).length:0;
+  document.getElementById('statMemo').textContent=memos?Object.keys(memos).length:0;
+
+  // 참여자 목록
   const plist=document.getElementById('participantList');
   plist.innerHTML=parts?Object.values(parts).map(p=>`<div class="ptag">${p.name}</div>`).join('')
     :'<div style="color:var(--dim);font-size:12px;">없음</div>';
 
-  const v1=await fbGet('votes/v1'), v2=await fbGet('votes/v2');
-  document.getElementById('statV1').textContent=v1?Object.keys(v1).length:0;
-  document.getElementById('statV2').textContent=v2?Object.keys(v2).length:0;
-
-  const memos=await fbGet('memos');
-  document.getElementById('statMemo').textContent=memos?Object.keys(memos).length:0;
+  // 메모
   const mlist=document.getElementById('adminMemoList');
   if(memos){
     const sorted=Object.values(memos).sort((a,b)=>(a.time||'').localeCompare(b.time||''));
-    mlist.innerHTML=sorted.map((m,i)=>
-      `<div class="mitem"><div class="mnum">${i+1}번</div><div class="mauth">${m.name}</div><div>${m.memo}</div></div>`
-    ).join('');
-  } else { mlist.innerHTML='<div style="color:var(--dim);font-size:12px;">아직 메모가 없습니다.</div>'; }
+    mlist.innerHTML=sorted.map((m,i)=>`<div class="mitem"><div class="mnum">${i+1}번</div><div class="mauth">${m.name}</div><div>${m.memo}</div></div>`).join('');
+  } else { mlist.innerHTML='<div style="color:var(--dim);font-size:12px;">없음</div>'; }
 
-  if(v1||v2) buildAdminChart(v1,v2);
+  // 그래프
+  if(v1||v2) buildChart(v1,v2);
 }
 
-function buildAdminChart(v1d,v2d){
+function buildChart(v1d,v2d){
   function cnt(d){ const r={yes:0,no:0,idk:0}; if(!d)return r; Object.values(d).forEach(x=>{ if(x.answer==='yes')r.yes++; else if(x.answer==='no')r.no++; else if(x.answer==='idk')r.idk++; }); return r; }
-  const c1=cnt(v1d), c2=cnt(v2d);
-  const t1=c1.yes+c1.no+c1.idk, t2=c2.yes+c2.no+c2.idk;
-  const COLORS=['#e8c547','#e85447','#7b8cde'], LABELS=['합리적이다','합리적이지 않다','모르겠다'];
-  const SIZE=104, R=44, cx=52, cy=52;
-
-  function makePie(data,total,labelTop){
-    if(total===0){
-      return `<div class="chart-item"><div class="chart-label-top">${labelTop}<br><span style="font-size:10px">(0명)</span></div>
-        <svg width="${SIZE}" height="${SIZE}" viewBox="0 0 ${SIZE} ${SIZE}"><circle cx="${cx}" cy="${cy}" r="${R}" fill="#2a2a3a" opacity="0.5"/><circle cx="${cx}" cy="${cy}" r="22" fill="var(--surface)"/><text style="font-size:9px;fill:var(--dim);text-anchor:middle;" x="${cx}" y="${cy+3}">없음</text></svg>
-        <div class="chart-legend">${LABELS.map((l,i)=>`<div class="leg-row"><div class="leg-dot" style="background:${COLORS[i]}"></div><span>${l}</span><span class="leg-val">0%</span></div>`).join('')}</div></div>`;
-    }
-    const vals=[data.yes,data.no,data.idk]; let paths='',legH='',sa=-Math.PI/2;
-    vals.forEach((v,i)=>{
-      if(v===0)return;
-      if(v===total){ paths+=`<circle cx="${cx}" cy="${cy}" r="${R}" fill="${COLORS[i]}" opacity="0.9"/>`; return; }
-      const a=(v/total)*2*Math.PI,ea=sa+a,x1=cx+R*Math.cos(sa),y1=cy+R*Math.sin(sa),x2=cx+R*Math.cos(ea),y2=cy+R*Math.sin(ea),lg=a>Math.PI?1:0;
-      paths+=`<path d="M${cx},${cy} L${x1.toFixed(2)},${y1.toFixed(2)} A${R},${R} 0 ${lg},1 ${x2.toFixed(2)},${y2.toFixed(2)} Z" fill="${COLORS[i]}" opacity="0.9"/>`;
-      sa=ea;
-      legH+=`<div class="leg-row"><div class="leg-dot" style="background:${COLORS[i]}"></div><span>${l}</span><span class="leg-val">${Math.round(v/total*100)}%</span></div>`.replace('${l}',LABELS[i]);
-    });
-    return `<div class="chart-item"><div class="chart-label-top">${labelTop}<br><span style="font-size:10px">(${total}명)</span></div>
-      <svg width="${SIZE}" height="${SIZE}" viewBox="0 0 ${SIZE} ${SIZE}">${paths}<circle cx="${cx}" cy="${cy}" r="22" fill="var(--surface)"/><text class="pie-ct" x="${cx}" y="${cy-3}">${total}명</text><text class="pie-ct" x="${cx}" y="${cy+8}">응답</text></svg>
-      <div class="chart-legend">${LABELS.map((l,i)=>`<div class="leg-row"><div class="leg-dot" style="background:${COLORS[i]}"></div><span>${l}</span><span class="leg-val">${Math.round((data[['yes','no','idk'][i]]||0)/total*100)}%</span></div>`).join('')}</div></div>`;
+  const c1=cnt(v1d),c2=cnt(v2d),t1=c1.yes+c1.no+c1.idk,t2=c2.yes+c2.no+c2.idk;
+  const C=['#e8c547','#e85447','#7b8cde'],L=['합리적이다','합리적이지 않다','모르겠다'];
+  const SZ=104,R=44,cx=52,cy=52;
+  function pie(data,total,lbl){
+    if(total===0) return `<div class="chart-item"><div class="chart-label-top">${lbl}<br><span style="font-size:10px">(0명)</span></div><svg width="${SZ}" height="${SZ}" viewBox="0 0 ${SZ} ${SZ}"><circle cx="${cx}" cy="${cy}" r="${R}" fill="#2a2a3a" opacity="0.5"/><circle cx="${cx}" cy="${cy}" r="22" fill="var(--surface)"/><text style="font-size:9px;fill:var(--dim);text-anchor:middle;" x="${cx}" y="${cy+3}">없음</text></svg><div class="chart-legend">${L.map((l,i)=>`<div class="leg-row"><div class="leg-dot" style="background:${C[i]}"></div><span>${l}</span><span class="leg-val">0%</span></div>`).join('')}</div></div>`;
+    const vals=[data.yes,data.no,data.idk]; let paths='',sa=-Math.PI/2;
+    vals.forEach((v,i)=>{ if(v===0)return; if(v===total){paths+=`<circle cx="${cx}" cy="${cy}" r="${R}" fill="${C[i]}" opacity="0.9"/>`;return;} const a=(v/total)*2*Math.PI,ea=sa+a,x1=cx+R*Math.cos(sa),y1=cy+R*Math.sin(sa),x2=cx+R*Math.cos(ea),y2=cy+R*Math.sin(ea),lg=a>Math.PI?1:0; paths+=`<path d="M${cx},${cy} L${x1.toFixed(2)},${y1.toFixed(2)} A${R},${R} 0 ${lg},1 ${x2.toFixed(2)},${y2.toFixed(2)} Z" fill="${C[i]}" opacity="0.9"/>`;sa=ea; });
+    return `<div class="chart-item"><div class="chart-label-top">${lbl}<br><span style="font-size:10px">(${total}명)</span></div><svg width="${SZ}" height="${SZ}" viewBox="0 0 ${SZ} ${SZ}">${paths}<circle cx="${cx}" cy="${cy}" r="22" fill="var(--surface)"/><text class="pie-ct" x="${cx}" y="${cy-3}">${total}명</text><text class="pie-ct" x="${cx}" y="${cy+8}">응답</text></svg><div class="chart-legend">${L.map((l,i)=>`<div class="leg-row"><div class="leg-dot" style="background:${C[i]}"></div><span>${l}</span><span class="leg-val">${Math.round(((data[['yes','no','idk'][i]]||0)/total)*100)}%</span></div>`).join('')}</div></div>`;
   }
-  document.getElementById('adminChart').innerHTML=makePie(c1,t1,'📊 발표 전')+'<div class="vsep"></div>'+makePie(c2,t2,'📊 발표 후');
+  document.getElementById('adminChart').innerHTML=pie(c1,t1,'📊 발표 전')+'<div class="vsep"></div>'+pie(c2,t2,'📊 발표 후');
 }
 
-// 초기화
 function openResetModal(){ document.getElementById('resetConfirmInput').value=''; document.getElementById('resetErr').textContent=''; document.getElementById('resetModal').classList.add('open'); setTimeout(()=>document.getElementById('resetConfirmInput').focus(),100); }
 function closeResetModal(){ document.getElementById('resetModal').classList.remove('open'); }
-
 async function confirmReset(){
-  const val=document.getElementById('resetConfirmInput').value.trim();
-  if(val!=='DELETE'){ document.getElementById('resetErr').textContent='"DELETE"를 정확히 입력하세요.'; return; }
+  if(document.getElementById('resetConfirmInput').value.trim()!=='DELETE'){ document.getElementById('resetErr').textContent='"DELETE"를 입력하세요.'; return; }
   closeResetModal();
-  // Firebase 데이터 삭제
-  await fbDelete('participants');
-  await fbDelete('votes');
-  await fbDelete('memos');
-  // 초기화 신호 + phase 리셋
-  const sig=Date.now().toString();
-  await fbPut('config',{phase:0, resetSignal:sig, forcePhase:null, revoteSignal:null});
-  currentPhase=0;
-  updatePhaseUI();
-  refreshAll();
-  showToast('🗑️ 전체 초기화 완료. 학생들이 자동으로 처음 화면으로 이동합니다.', 'var(--err)');
+  await Promise.all([fbDelete('participants'),fbDelete('votes'),fbDelete('memos')]);
+  await fbPut('config',{phase:0,resetSignal:Date.now().toString(),forcePhase:null,revoteSignal:null,lotterySignal:null});
+  currentPhase=0; updatePhaseUI(); refreshAll();
+  showToast('🗑️ 전체 초기화 완료','var(--err)');
 }
 
 document.getElementById('resetModal').addEventListener('click',function(e){ if(e.target===this)closeResetModal(); });
