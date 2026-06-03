@@ -175,12 +175,44 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 .end-line{width:48px;height:2px;background:rgba(232,197,71,0.3);margin:0 auto 28px;}
 .end-slogan{font-family:'Noto Serif KR',serif;font-size:18px;font-weight:700;color:var(--text);line-height:1.7;margin-bottom:36px;}
 .end-credit{font-size:13px;color:var(--dim);letter-spacing:0.06em;}
-.end-credit strong{color:var(--text);}
+.end-credit strong{color:var(--accent);}
 
 .spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(0,0,0,0.3);border-top-color:#000;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:6px;}
 @keyframes spin{to{transform:rotate(360deg)}}
 ::-webkit-scrollbar{width:3px;}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+
+/* 재투표 배너 */
+.revote-banner{
+  display:none;
+  position:fixed;
+  bottom:80px;left:16px;right:16px;
+  background:var(--surface);
+  border:1.5px solid var(--accent);
+  border-radius:14px;
+  padding:14px 16px;
+  z-index:1000;
+  box-shadow:0 4px 20px rgba(0,0,0,0.5);
+  align-items:center;justify-content:space-between;gap:12px;
+}
+.revote-banner.show{display:flex;}
+.revote-msg{font-size:13px;color:var(--text);line-height:1.4;flex:1;}
+.revote-btn{
+  background:var(--accent);color:#000;
+  border:none;border-radius:10px;
+  padding:10px 14px;
+  font-size:13px;font-weight:700;
+  font-family:'Noto Sans KR',sans-serif;
+  cursor:pointer;white-space:nowrap;
+  transition:all .2s;flex-shrink:0;
+}
+.revote-btn:hover{background:var(--accent2);}
+.revote-close{
+  background:transparent;border:none;
+  color:var(--dim);font-size:18px;
+  cursor:pointer;flex-shrink:0;
+  padding:0 4px;
+}
 </style>
 </head>
 <body>
@@ -310,6 +342,13 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
   </div>
 </div>
 
+<!-- 재투표 배너 (화면 위에 떠있음) -->
+<div class="revote-banner" id="revoteBanner">
+  <div class="revote-msg">📢 발표자가 재투표를 허용했습니다.<br>다시 투표하시겠습니까?</div>
+  <button class="revote-btn" onclick="doRevote()">다시 투표</button>
+  <button class="revote-close" onclick="hideRevoteBanner()">✕</button>
+</div>
+
 <!-- s7: 종료 -->
 <div class="screen" id="s7">
   <div class="end-wrap">
@@ -317,7 +356,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
     <div class="end-title">누가 당신의 진로를<br>결정하는가</div>
     <div class="end-line"></div>
     <div class="end-slogan" id="endSlogan">예측을 의심하고,<br>역량을 선택하라</div>
-    <div class="end-credit"><strong>by 최강</strong> &nbsp;·&nbsp; with 하단우</div>
+    <div class="end-credit"><strong>by 최강</strong> &nbsp;·&nbsp; <strong>with 하단우</strong></div>
   </div>
 </div>
 
@@ -427,9 +466,11 @@ async function pollPhase(){
       lastRevoteSig = revoteSig;
     } else if(revoteSig && revoteSig !== lastRevoteSig){
       lastRevoteSig = revoteSig;
+      // 투표 데이터만 초기화, 강제 이동은 하지 않음
       localStorage.removeItem('v1'); localStorage.removeItem('v2'); localStorage.removeItem('memoSubmitted');
       sel1=null; sel2=null; v2done=false; resetVoteUI();
-      if(isValidPhase(fp)) goToScreen(fp);
+      // '다시 투표하기' 배너 표시 (원하는 학생만 누름)
+      showRevoteBanner();
       return;
     }
 
@@ -478,7 +519,9 @@ async function pollPhase(){
     // ── 5. 일반 흐름 (forcePhase 없을 때) ──────
     if(v2done){
       const phase = cfg.phase || 0;
-      if(phase >= 5){ stopPolling(); await buildChart(); go('s5'); loadMemos(); }
+      if(phase >= 5 && currentScreen !== 's5' && currentScreen !== 's6' && currentScreen !== 's7'){
+        await buildChart(); go('s5'); loadMemos();
+      }
     }
 
   } catch(e){
@@ -491,7 +534,7 @@ function goToScreen(phase){
   phase = Number(phase);
   if(phase === 7){ go('s7'); }
   else if(phase === 6){ go('s6'); loadNameCloud(); }
-  else if(phase === 5){ stopPolling(); buildChart().then(()=>{ go('s5'); loadMemos(); }); }
+  else if(phase === 5){ buildChart().then(()=>{ go('s5'); loadMemos(); }); }
   else if(phase === 4){ go('s4'); setupS4(); }
   else if(phase === 3){ go('s3'); updateV1Badge(); }
   else if(phase === 2){ go('s2'); }
@@ -502,6 +545,25 @@ function resetVoteUI(){
   const s1=document.getElementById('sb1'); s1.disabled=true; s1.textContent='투표하기'; s1.style.display='block';
   const s2=document.getElementById('sb2'); s2.disabled=true; s2.textContent='투표하기';
   const mt=document.getElementById('memoTrigger'); mt.textContent='💬 나의 한 줄 남기기'; mt.disabled=false;
+}
+
+function showRevoteBanner(){
+  const b=document.getElementById('revoteBanner');
+  b.classList.add('show');
+}
+function hideRevoteBanner(){
+  document.getElementById('revoteBanner').classList.remove('show');
+}
+function doRevote(){
+  hideRevoteBanner();
+  // 투표 버튼 상태 초기화
+  document.getElementById('vo1').querySelectorAll('.vbtn').forEach(b=>b.classList.remove('on'));
+  document.getElementById('sb1').disabled = true;
+  document.getElementById('sb1').textContent = '투표하기';
+  document.getElementById('sb1').style.display = 'block';
+  document.getElementById('vo1').style.display = 'flex';
+  sel1 = null;
+  go('s2');
 }
 
 function startPolling(){ if(!pollTimer) pollTimer = setInterval(pollPhase, 1500); }
