@@ -387,6 +387,15 @@ function isValidPhase(fp){
   return true;
 }
 
+// 학생의 현재 상태에서 허용되는 최소 phase 단계
+// 이미 완료한 단계 이하로는 되돌리지 않음
+function getMinAllowedPhase(){
+  if(lsGet('v2'))   return 5;  // 2차 투표 완료 → 최소 5(결과)까지만 이동
+  if(v2done)        return 5;
+  if(lsGet('v1'))   return 3;  // 1차 투표 완료 → 최소 3(발표대기)부터
+  return 2;                     // 미투표 → 2부터 허용
+}
+
 // ── Polling ───────────────────────────────────
 async function pollPhase(){
   let cfg;
@@ -443,6 +452,12 @@ async function pollPhase(){
   // ── 4. forcePhase 처리 ─────────────────────
   if(isValidPhase(fp)){
     const fpNum = Number(fp);
+
+    // 학생이 이미 완료한 단계보다 낮은 phase로는 되돌리지 않음
+    // 예: 1차 투표 완료(v1 있음) → forcePhase=2여도 s2로 안 돌아감
+    const minAllowed = getMinAllowedPhase();
+    if(fpNum < minAllowed) return; // 낮은 단계 무시
+
     if(fpNum === 6){
       if(currentScreen !== 's6'){
         go('s6');
