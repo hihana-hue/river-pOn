@@ -91,43 +91,89 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 .minput{width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:12px;padding:13px 15px;color:var(--text);font-size:14px;font-family:'Noto Sans KR',sans-serif;resize:none;height:76px;margin-top:10px;}
 .minput:focus{outline:none;border-color:var(--accent);}
 .mlist{display:flex;flex-direction:column;gap:8px;max-height:200px;overflow-y:auto;margin-top:10px;}
-.mitem{background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:10px 13px;font-size:13px;animation:msi .3s ease;}
-@keyframes msi{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:translateX(0)}}
+.mitem{background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:10px 13px;font-size:13px;}
 .mnum{font-size:10px;color:var(--accent);font-weight:700;margin-bottom:2px;}
 .mauth{font-size:11px;color:var(--dim);margin-bottom:3px;}
 
 /* ── 추첨 화면 ── */
-.lottery-hdr{text-align:center;margin-bottom:20px;}
-.lottery-title{font-family:'Noto Serif KR',serif;font-size:24px;font-weight:900;color:var(--accent);margin-bottom:6px;}
-.lottery-status{font-size:13px;color:var(--dim);}
+.lottery-wrap{padding:16px 18px;}
+.lottery-hdr{text-align:center;padding:20px 0 16px;}
+.lottery-title{font-family:'Noto Serif KR',serif;font-size:24px;font-weight:900;color:var(--accent);margin-bottom:8px;}
+.lottery-status{font-size:14px;color:var(--dim);min-height:20px;}
 
-/* 참여자 이름 목록 (추첨 전) */
-.name-cloud{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:20px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:14px;}
-.name-chip{background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-size:13px;color:var(--text);transition:all .3s;}
-.name-chip.winner-chip{background:rgba(232,197,71,0.2);border-color:var(--accent);color:var(--accent);font-weight:700;transform:scale(1.08);}
+/* 이름 클라우드 */
+.name-cloud{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:14px;margin-bottom:16px;}
+.name-chip{background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:7px 14px;font-size:13px;color:var(--text);transition:all .4s;}
+.name-chip.highlight{background:rgba(232,197,71,0.2);border-color:var(--accent);color:var(--accent);font-weight:700;transform:scale(1.1);}
 
-/* 슬롯 */
-.slots-wrap{display:flex;gap:10px;justify-content:center;margin-bottom:20px;}
-.slot{flex:1;max-width:110px;background:var(--surface);border:2px solid var(--border);border-radius:14px;overflow:hidden;height:88px;position:relative;}
-.slot.winner-slot{border-color:var(--accent);box-shadow:0 0 20px rgba(232,197,71,0.35);}
-.slot-mask{position:absolute;inset:0;background:linear-gradient(to bottom,var(--surface) 0%,transparent 30%,transparent 70%,var(--surface) 100%);z-index:2;pointer-events:none;}
-.slot-inner{position:absolute;width:100%;will-change:transform;}
-.slot-item{height:88px;display:flex;align-items:center;justify-content:center;font-family:'Noto Serif KR',serif;font-size:14px;font-weight:700;color:var(--text);text-align:center;padding:0 6px;line-height:1.3;}
+/* 슬롯 3개 */
+.slots-section{margin-bottom:16px;}
+.slots-wrap{display:flex;gap:10px;justify-content:center;}
+.slot-box{
+  flex:1;max-width:115px;
+  height:90px;
+  background:var(--surface);
+  border:2px solid var(--border);
+  border-radius:14px;
+  overflow:hidden;
+  position:relative;
+  transition:border-color .4s,box-shadow .4s;
+}
+.slot-box.winner{border-color:var(--accent);box-shadow:0 0 20px rgba(232,197,71,0.4);}
+/* 위아래 그라디언트 마스크 */
+.slot-box::before,.slot-box::after{
+  content:'';position:absolute;left:0;right:0;height:28px;z-index:3;pointer-events:none;
+}
+.slot-box::before{top:0;background:linear-gradient(to bottom,var(--surface),transparent);}
+.slot-box::after{bottom:0;background:linear-gradient(to top,var(--surface),transparent);}
+.slot-reel{
+  position:absolute;top:0;left:0;width:100%;
+  /* JS가 transform으로 제어 */
+}
+.slot-item{
+  height:90px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Noto Serif KR',serif;
+  font-size:14px;font-weight:700;
+  color:var(--text);
+  text-align:center;
+  padding:0 8px;
+  line-height:1.3;
+}
+.slot-item.win-item{
+  color:var(--accent);
+  font-size:16px;
+}
 
 /* 당첨자 발표 */
-.winners-reveal{display:none;background:var(--surface);border:1px solid rgba(232,197,71,0.35);border-radius:16px;padding:24px;text-align:center;margin-bottom:16px;animation:fi .6s ease;}
-.winners-reveal.show{display:block;}
-.wr-title{font-family:'Noto Serif KR',serif;font-size:15px;color:var(--accent);font-weight:700;margin-bottom:16px;}
-.winner-row{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:12px;animation:fi .5s ease;}
+.winners-box{
+  display:none;
+  background:var(--surface);
+  border:1px solid rgba(232,197,71,0.35);
+  border-radius:16px;
+  padding:24px 20px;
+  text-align:center;
+  animation:fi .6s ease;
+}
+.winners-box.show{display:block;}
+.wb-title{font-family:'Noto Serif KR',serif;font-size:14px;color:var(--accent);font-weight:700;margin-bottom:16px;}
+.winner-row{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:10px;}
 .winner-rank{font-size:11px;font-weight:700;background:var(--accent);color:#000;border-radius:20px;padding:3px 12px;white-space:nowrap;}
 .winner-name{font-family:'Noto Serif KR',serif;font-size:24px;font-weight:900;color:var(--text);}
 
 /* ── 종료 화면 ── */
-.end-screen{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;text-align:center;}
-.end-project{font-size:12px;color:var(--dim);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:12px;}
-.end-title{font-family:'Noto Serif KR',serif;font-size:28px;font-weight:900;color:var(--accent);line-height:1.3;margin-bottom:24px;}
-.end-divider{width:60px;height:2px;background:var(--border);margin:0 auto 24px;}
-.end-slogan{font-family:'Noto Serif KR',serif;font-size:18px;font-weight:700;color:var(--text);line-height:1.6;margin-bottom:32px;}
+.end-wrap{
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:40px 28px;
+  text-align:center;
+  background:var(--bg);
+}
+.end-project{font-size:11px;color:var(--dim);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:14px;}
+.end-title{font-family:'Noto Serif KR',serif;font-size:26px;font-weight:900;color:var(--accent);line-height:1.45;margin-bottom:28px;}
+.end-line{width:48px;height:2px;background:rgba(232,197,71,0.3);margin:0 auto 28px;}
+.end-slogan{font-family:'Noto Serif KR',serif;font-size:18px;font-weight:700;color:var(--text);line-height:1.7;margin-bottom:36px;}
 .end-credit{font-size:13px;color:var(--dim);letter-spacing:0.06em;}
 .end-credit strong{color:var(--text);}
 
@@ -173,12 +219,13 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 <div class="screen" id="s3">
   <div class="hdr"><span class="logo"><strong>프로젝트ON</strong>누가 당신의 진로를 결정하는가 / 투표</span><span class="badge">발표 중</span></div>
   <div class="pbar"><div class="pd done"></div><div class="pd done"></div><div class="pd cur"></div><div class="pd"></div></div>
-  <div class="vote-done-badge" id="v1Badge">
+  <div class="vote-done-badge">
     <div style="font-size:20px;">✅</div>
     <div><div class="vdb-text" id="v1BadgeText">에 투표하셨습니다.</div><div class="vdb-sub">1차 투표 완료</div></div>
   </div>
   <div class="wcard">
-    <div class="wi">🎤</div><div class="wt">발표를 집중해서 들어주세요</div>
+    <div class="wi">🎤</div>
+    <div class="wt">발표를 집중해서 들어주세요</div>
     <div class="ws">발표가 끝나면 같은 질문에<br>다시 한 번 투표하게 됩니다.<br><br>📵 핸드폰은 잠시 내려놓아 주세요.</div>
     <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
   </div>
@@ -212,7 +259,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
   <div class="pbar"><div class="pd done"></div><div class="pd done"></div><div class="pd done"></div><div class="pd done"></div></div>
   <div class="wcard">
     <div class="wi">🙏</div><div class="wt">투표를 완료했습니다</div>
-    <div class="ws">참여해주셔서 감사합니다.<br><br>잠시 후 결과 화면이 공개됩니다.<br>발표자를 주목해 주세요.</div>
+    <div class="ws">참여해주셔서 감사합니다.<br><br>잠시 후 결과 화면이 공개됩니다.</div>
     <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
   </div>
 </div>
@@ -238,294 +285,384 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
   </div>
 </div>
 
-<!-- s6: 추첨 화면 -->
+<!-- s6: 추첨 -->
 <div class="screen" id="s6">
-  <div class="hdr"><span class="logo"><strong>프로젝트ON</strong>누가 당신의 진로를 결정하는가 / 투표</span><span class="badge">🎰 추첨</span></div>
-  <div class="lottery-hdr">
-    <div class="lottery-title">🎰 당첨자 추첨</div>
-    <div class="lottery-status" id="lotteryStatus">잠시 후 추첨이 시작됩니다</div>
+  <div class="lottery-wrap">
+    <div class="hdr"><span class="logo"><strong>프로젝트ON</strong>누가 당신의 진로를 결정하는가 / 투표</span><span class="badge">🎰 추첨</span></div>
+    <div class="lottery-hdr">
+      <div class="lottery-title">🎰 당첨자 추첨</div>
+      <div class="lottery-status" id="lotteryStatus">잠시 후 추첨이 시작됩니다</div>
+    </div>
+    <!-- 이름 클라우드 (추첨 전) -->
+    <div class="name-cloud" id="nameCloud">
+      <div style="color:var(--dim);font-size:13px;">참여자 목록 불러오는 중...</div>
+    </div>
+    <!-- 슬롯 (추첨 시작 후 표시) -->
+    <div class="slots-section" id="slotsSection" style="display:none;">
+      <div class="slots-wrap">
+        <div class="slot-box" id="slotBox0"><div class="slot-reel" id="reel0"></div></div>
+        <div class="slot-box" id="slotBox1"><div class="slot-reel" id="reel1"></div></div>
+        <div class="slot-box" id="slotBox2"><div class="slot-reel" id="reel2"></div></div>
+      </div>
+    </div>
+    <!-- 당첨자 발표 -->
+    <div class="winners-box" id="winnersBox"></div>
   </div>
-  <!-- 참여자 이름 클라우드 -->
-  <div class="name-cloud" id="nameCloud"></div>
-  <!-- 슬롯 3개 (추첨 시작 전 숨김) -->
-  <div class="slots-wrap" id="slotsWrap" style="display:none;">
-    <div class="slot" id="slot0"><div class="slot-mask"></div><div class="slot-inner" id="si0"></div></div>
-    <div class="slot" id="slot1"><div class="slot-mask"></div><div class="slot-inner" id="si1"></div></div>
-    <div class="slot" id="slot2"><div class="slot-mask"></div><div class="slot-inner" id="si2"></div></div>
-  </div>
-  <!-- 당첨자 발표 -->
-  <div class="winners-reveal" id="winnersReveal"></div>
 </div>
 
-<!-- s7: 종료 화면 -->
+<!-- s7: 종료 -->
 <div class="screen" id="s7">
-  <div class="end-screen">
+  <div class="end-wrap">
     <div class="end-project">PROJECT ON</div>
-    <div class="end-title" id="endTitle">누가 당신의 진로를<br>결정하는가</div>
-    <div class="end-divider"></div>
+    <div class="end-title">누가 당신의 진로를<br>결정하는가</div>
+    <div class="end-line"></div>
     <div class="end-slogan" id="endSlogan">예측을 의심하고,<br>역량을 선택하라</div>
-    <div class="end-credit">
-      <strong>by 최강</strong> &nbsp;·&nbsp; with 하단우
-    </div>
+    <div class="end-credit"><strong>by 최강</strong> &nbsp;·&nbsp; with 하단우</div>
   </div>
 </div>
 
 <script>
-const FB='https://river-projecton-default-rtdb.asia-southeast1.firebasedatabase.app';
-const VOTE_LABELS={yes:'✅ 합리적이다',no:'❌ 합리적이지 않다',idk:'🤔 잘 모르겠다'};
+const FB = 'https://river-projecton-default-rtdb.asia-southeast1.firebasedatabase.app';
+const VOTE_LABELS = {yes:'✅ 합리적이다', no:'❌ 합리적이지 않다', idk:'🤔 잘 모르겠다'};
 
-let nick='',sel1=null,sel2=null,v2done=false;
-let pollTimer=null,heartbeatTimer=null;
-let lastResetSig=null,lastRevoteSig=null,lastSpinSig=null;
-let currentScreen='s0',lotteryRunning=false;
+let nick = '', sel1 = null, sel2 = null, v2done = false;
+let pollTimer = null, heartbeatTimer = null;
+// 신호 추적 — '___INIT___'으로 초기화하여 첫 poll에서 무조건 현재값으로 세팅
+let lastResetSig = '___INIT___';
+let lastRevoteSig = '___INIT___';
+let lastSpinSig = '___INIT___';
+let currentScreen = 's0';
+let lotteryRunning = false;
 
 // ── Firebase ──────────────────────────────────
-async function fbGet(p){try{const r=await fetch(`${FB}/${p}.json`);return await r.json();}catch(e){return null;}}
-async function fbPut(p,d){try{await fetch(`${FB}/${p}.json`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});}catch(e){}}
-async function fbPost(p,d){try{await fetch(`${FB}/${p}.json`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...d,time:new Date().toISOString()})});}catch(e){}}
-function lsGet(k){return localStorage.getItem(k);}
-function lsSet(k,v){localStorage.setItem(k,v);}
+async function fbGet(p){
+  try{ const r = await fetch(`${FB}/${p}.json`); return await r.json(); }
+  catch(e){ return null; }
+}
+async function fbPut(p,d){
+  try{ await fetch(`${FB}/${p}.json`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)}); }
+  catch(e){}
+}
+async function fbPost(p,d){
+  try{ await fetch(`${FB}/${p}.json`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...d,time:new Date().toISOString()})}); }
+  catch(e){}
+}
+function lsGet(k){ return localStorage.getItem(k); }
+function lsSet(k,v){ localStorage.setItem(k,v); }
 
 // ── 화면 전환 ─────────────────────────────────
 function go(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  currentScreen=id;window.scrollTo(0,0);
+  currentScreen = id;
+  window.scrollTo(0,0);
 }
 
-// ── heartbeat (10초마다 갱신) ─────────────────
+// ── heartbeat ─────────────────────────────────
 function startHeartbeat(){
-  if(heartbeatTimer)return;
-  const send=()=>{ if(nick) fbPut(`online/${nick}`,{name:nick,ts:Date.now()}); };
+  if(heartbeatTimer) return;
+  const send = () => { if(nick) fbPut(`online/${nick}`, {name:nick, ts:Date.now()}); };
   send();
-  heartbeatTimer=setInterval(send,10000);
+  heartbeatTimer = setInterval(send, 10000);
 }
-function stopHeartbeat(){if(heartbeatTimer){clearInterval(heartbeatTimer);heartbeatTimer=null;}}
+function stopHeartbeat(){ if(heartbeatTimer){ clearInterval(heartbeatTimer); heartbeatTimer=null; } }
 
 // ── 1차 투표 배지 ─────────────────────────────
 function updateV1Badge(){
-  const v=lsGet('v1');if(!v)return;
-  document.getElementById('v1BadgeText').textContent=`"${VOTE_LABELS[v]}"에 투표하셨습니다.`;
+  const v = lsGet('v1'); if(!v) return;
+  document.getElementById('v1BadgeText').textContent = `"${VOTE_LABELS[v]}"에 투표하셨습니다.`;
 }
 
 // ── 2차 투표 화면 셋업 ────────────────────────
 function setupS4(){
-  const hasV1=!!lsGet('v1');
-  document.getElementById('noVoteBox').style.display=hasV1?'none':'block';
-  document.getElementById('v2Card').style.display=hasV1?'block':'none';
-  document.getElementById('sb2').style.display=hasV1?'block':'none';
+  const has1 = !!lsGet('v1');
+  document.getElementById('noVoteBox').style.display = has1 ? 'none' : 'block';
+  document.getElementById('v2Card').style.display = has1 ? 'block' : 'none';
+  document.getElementById('sb2').style.display = has1 ? 'block' : 'none';
+}
+
+// ── forcePhase 유효성 체크 ────────────────────
+function isValidPhase(fp){
+  if(fp === null || fp === undefined || fp === false || fp === 'null' || fp === 0) return false;
+  return true;
 }
 
 // ── Polling ───────────────────────────────────
 async function pollPhase(){
-  let cfg;try{cfg=await fbGet('config');}catch(e){return;}
-  if(!cfg)return;
+  let cfg;
+  try{ cfg = await fbGet('config'); }
+  catch(e){ return; }
+  if(!cfg) return;
 
-  const fp=cfg.forcePhase,resetSig=cfg.resetSignal||null,revoteSig=cfg.revoteSignal||null,spinSig=cfg.spinSignal||null;
+  const fp = cfg.forcePhase;
+  const resetSig  = cfg.resetSignal  || null;
+  const revoteSig = cfg.revoteSignal || null;
+  const spinSig   = cfg.spinSignal   || null;
 
-  // 초기화 신호
-  if(lastResetSig===null)lastResetSig=resetSig;
-  if(resetSig&&resetSig!==lastResetSig){
-    lastResetSig=resetSig;
-    localStorage.clear();nick='';sel1=null;sel2=null;v2done=false;lotteryRunning=false;
-    lastRevoteSig=null;lastSpinSig=null;
+  // ── 1. 초기화 신호 ─────────────────────────
+  if(lastResetSig === '___INIT___'){
+    lastResetSig = resetSig; // 첫 poll: 현재값으로 초기화 (반응 안함)
+  } else if(resetSig && resetSig !== lastResetSig){
+    lastResetSig = resetSig;
+    localStorage.clear();
+    nick=''; sel1=null; sel2=null; v2done=false; lotteryRunning=false;
+    lastRevoteSig='___INIT___'; lastSpinSig='___INIT___';
     document.getElementById('nickInput').value='';
     document.getElementById('nickErr').textContent='';
-    stopPolling();stopHeartbeat();go('s0');return;
+    stopPolling(); stopHeartbeat(); go('s0'); return;
   }
 
-  // 재투표 신호
-  if(lastRevoteSig===null)lastRevoteSig=revoteSig;
-  if(revoteSig&&revoteSig!==lastRevoteSig){
-    lastRevoteSig=revoteSig;
-    localStorage.removeItem('v1');localStorage.removeItem('v2');localStorage.removeItem('memoSubmitted');
-    sel1=null;sel2=null;v2done=false;resetVoteUI();
-    if(fp!==null&&fp!==undefined)goToScreen(fp);
+  // ── 2. 재투표 신호 ─────────────────────────
+  if(lastRevoteSig === '___INIT___'){
+    lastRevoteSig = revoteSig;
+  } else if(revoteSig && revoteSig !== lastRevoteSig){
+    lastRevoteSig = revoteSig;
+    localStorage.removeItem('v1'); localStorage.removeItem('v2'); localStorage.removeItem('memoSubmitted');
+    sel1=null; sel2=null; v2done=false; resetVoteUI();
+    if(isValidPhase(fp)) goToScreen(fp);
     return;
   }
 
-  // 추첨 시작 신호 (관리자가 추첨 버튼 누름)
-  if(lastSpinSig===null)lastSpinSig=spinSig;
-  if(spinSig&&spinSig!==lastSpinSig&&!lotteryRunning){
-    lastSpinSig=spinSig;
-    const winners=cfg.lotteryWinners||[];
-    const slogan=cfg.lotterySlogan||'예측을 의심하고, 역량을 선택하라';
-    runSlotAnimation(winners,slogan);
+  // ── 3. 추첨 시작 신호 ──────────────────────
+  if(lastSpinSig === '___INIT___'){
+    lastSpinSig = spinSig;
+  } else if(spinSig && spinSig !== lastSpinSig && !lotteryRunning){
+    lastSpinSig = spinSig;
+    const winners = cfg.lotteryWinners || [];
+    const slogan  = cfg.lotterySlogan  || '예측을 의심하고, 역량을 선택하라';
+    // 반드시 s6 화면에서 실행
+    if(currentScreen !== 's6'){
+      go('s6');
+      await loadNameCloud();
+      await delay(400); // DOM 렌더링 대기
+    }
+    runSlotAnimation(winners, slogan);
     return;
   }
 
-  // forcePhase 처리
-  if(fp!==null&&fp!==undefined&&fp!==false){
-    goToScreen(fp);return;
+  // ── 4. forcePhase 처리 ─────────────────────
+  if(isValidPhase(fp)){
+    const fpNum = Number(fp);
+    if(fpNum === 6){
+      if(currentScreen !== 's6'){
+        go('s6');
+        loadNameCloud();
+      }
+    } else if(fpNum === 7){
+      go('s7');
+      const slogan = cfg.lotterySlogan || '예측을 의심하고, 역량을 선택하라';
+      document.getElementById('endSlogan').textContent = slogan;
+    } else {
+      goToScreen(fpNum);
+    }
+    return;
   }
 
-  // 일반 흐름
-  if(v2done&&fp>=5){stopPolling();await buildChart();go('s5');loadMemos();return;}
-  if(currentScreen==='s3'&&fp>=4){go('s4');setupS4();return;}
-  if(fp>=5&&currentScreen!=='s5'&&currentScreen!=='s6'&&currentScreen!=='s7'){
-    stopPolling();await buildChart();go('s5');loadMemos();
+  // ── 5. 일반 흐름 (forcePhase 없을 때) ──────
+  if(v2done){
+    const phase = cfg.phase || 0;
+    if(phase >= 5){ stopPolling(); await buildChart(); go('s5'); loadMemos(); }
   }
 }
 
 function goToScreen(phase){
-  if(phase===7)go('s7');
-  else if(phase===6){go('s6');loadNameCloud();}
-  else if(phase===5){stopPolling();buildChart().then(()=>{go('s5');loadMemos();});}
-  else if(phase===4){go('s4');setupS4();}
-  else if(phase===3){go('s3');updateV1Badge();}
-  else if(phase===2)go('s2');
+  phase = Number(phase);
+  if(phase === 7){ go('s7'); }
+  else if(phase === 6){ go('s6'); loadNameCloud(); }
+  else if(phase === 5){ stopPolling(); buildChart().then(()=>{ go('s5'); loadMemos(); }); }
+  else if(phase === 4){ go('s4'); setupS4(); }
+  else if(phase === 3){ go('s3'); updateV1Badge(); }
+  else if(phase === 2){ go('s2'); }
 }
 
 function resetVoteUI(){
-  document.getElementById('vo1').querySelectorAll('.vbtn').forEach(b=>b.classList.remove('on'));
-  document.getElementById('sb1').disabled=true;document.getElementById('sb1').textContent='투표하기';document.getElementById('sb1').style.display='block';
-  document.getElementById('vo2').querySelectorAll('.vbtn').forEach(b=>b.classList.remove('on'));
-  document.getElementById('sb2').disabled=true;document.getElementById('sb2').textContent='투표하기';
-  document.getElementById('memoTrigger').textContent='💬 나의 한 줄 남기기';document.getElementById('memoTrigger').disabled=false;
+  ['vo1','vo2'].forEach(id => document.getElementById(id).querySelectorAll('.vbtn').forEach(b=>b.classList.remove('on')));
+  const s1=document.getElementById('sb1'); s1.disabled=true; s1.textContent='투표하기'; s1.style.display='block';
+  const s2=document.getElementById('sb2'); s2.disabled=true; s2.textContent='투표하기';
+  const mt=document.getElementById('memoTrigger'); mt.textContent='💬 나의 한 줄 남기기'; mt.disabled=false;
 }
 
-function startPolling(){if(!pollTimer)pollTimer=setInterval(pollPhase,2000);}
-function stopPolling(){if(pollTimer){clearInterval(pollTimer);pollTimer=null;}}
+function startPolling(){ if(!pollTimer) pollTimer = setInterval(pollPhase, 2000); }
+function stopPolling(){ if(pollTimer){ clearInterval(pollTimer); pollTimer=null; } }
+function delay(ms){ return new Promise(r=>setTimeout(r,ms)); }
 
 // ── 이름 입력 ─────────────────────────────────
 async function submitNick(){
-  const v=document.getElementById('nickInput').value.trim();
-  const err=document.getElementById('nickErr');
-  if(!v||v.length<2){err.textContent='이름을 정확히 입력해 주세요. (2글자 이상)';return;}
-  err.textContent='';
-  const btn=document.querySelector('#s0 .sbtn');
-  btn.innerHTML='<span class="spinner"></span>입장 중...';btn.disabled=true;
-  nick=v;lsSet('vNick',nick);
-  await fbPut(`participants/${nick}`,{name:nick,joinedAt:new Date().toISOString()});
-  const cfg=await fbGet('config')||{};
-  const fp=cfg.forcePhase;
-  lastResetSig=cfg.resetSignal||null;lastRevoteSig=cfg.revoteSignal||null;lastSpinSig=cfg.spinSignal||null;
-  btn.innerHTML='입장하기 →';btn.disabled=false;
-  startHeartbeat();startPolling();
-  const hasV2=!!lsGet('v2'),hasV1=!!lsGet('v1');
+  const v = document.getElementById('nickInput').value.trim();
+  const err = document.getElementById('nickErr');
+  if(!v || v.length < 2){ err.textContent='이름을 정확히 입력해 주세요. (2글자 이상)'; return; }
+  err.textContent = '';
+  const btn = document.querySelector('#s0 .sbtn');
+  btn.innerHTML = '<span class="spinner"></span>입장 중...'; btn.disabled = true;
+
+  nick = v; lsSet('vNick', nick);
+  await fbPut(`participants/${nick}`, {name:nick, joinedAt:new Date().toISOString()});
+
+  const cfg = await fbGet('config') || {};
+  const fp = cfg.forcePhase;
+
+  // 신호 초기값 설정 (이미 있는 신호에는 반응 안함)
+  lastResetSig  = cfg.resetSignal  || null;
+  lastRevoteSig = cfg.revoteSignal || null;
+  lastSpinSig   = cfg.spinSignal   || null;
+
+  btn.innerHTML = '입장하기 →'; btn.disabled = false;
+  startHeartbeat(); startPolling();
+
   // forcePhase 우선
-  if(fp!==null&&fp!==undefined&&fp!==false){goToScreen(fp);return;}
-  if(hasV2){v2done=true;go('sThanks');}
-  else if(hasV1){updateV1Badge();go('s3');}
-  else go('s2');
+  if(isValidPhase(fp)){
+    const fpNum = Number(fp);
+    if(fpNum === 6){ go('s6'); loadNameCloud(); return; }
+    if(fpNum === 7){ go('s7'); return; }
+    goToScreen(fpNum); return;
+  }
+
+  // 로컬 상태 기반
+  const hasV2 = !!lsGet('v2'), hasV1 = !!lsGet('v1');
+  if(hasV2){ v2done=true; go('sThanks'); }
+  else if(hasV1){ updateV1Badge(); go('s3'); }
+  else { go('s2'); }
 }
 
-function pick(round,val,btn){
+function pick(round, val, btn){
   document.getElementById('vo'+round).querySelectorAll('.vbtn').forEach(b=>b.classList.remove('on'));
   btn.classList.add('on');
-  if(round===1){sel1=val;document.getElementById('sb1').disabled=false;}
-  else{sel2=val;document.getElementById('sb2').disabled=false;}
+  if(round===1){ sel1=val; document.getElementById('sb1').disabled=false; }
+  else{ sel2=val; document.getElementById('sb2').disabled=false; }
 }
 
 async function doV1(){
-  if(!sel1)return;
-  const btn=document.getElementById('sb1');
-  btn.innerHTML='<span class="spinner"></span>저장 중...';btn.disabled=true;
-  await fbPut(`votes/v1/${nick}`,{name:nick,answer:sel1});
-  lsSet('v1',sel1);updateV1Badge();
-  setTimeout(()=>go('s3'),800);
+  if(!sel1) return;
+  const btn = document.getElementById('sb1');
+  btn.innerHTML = '<span class="spinner"></span>저장 중...'; btn.disabled = true;
+  await fbPut(`votes/v1/${nick}`, {name:nick, answer:sel1});
+  lsSet('v1', sel1); updateV1Badge();
+  setTimeout(()=>go('s3'), 800);
 }
 
 async function doV2(){
-  if(!sel2)return;
-  const btn=document.getElementById('sb2');
-  btn.innerHTML='<span class="spinner"></span>저장 중...';btn.disabled=true;
-  await fbPut(`votes/v2/${nick}`,{name:nick,answer:sel2});
-  lsSet('v2',sel2);v2done=true;startPolling();
-  setTimeout(()=>go('sThanks'),800);
+  if(!sel2) return;
+  const btn = document.getElementById('sb2');
+  btn.innerHTML = '<span class="spinner"></span>저장 중...'; btn.disabled = true;
+  await fbPut(`votes/v2/${nick}`, {name:nick, answer:sel2});
+  lsSet('v2', sel2); v2done = true; startPolling();
+  setTimeout(()=>go('sThanks'), 800);
 }
 
 // ── 그래프 ────────────────────────────────────
 async function buildChart(){
-  const [v1d,v2d]=await Promise.all([fbGet('votes/v1'),fbGet('votes/v2')]);
-  function cnt(d){const r={yes:0,no:0,idk:0};if(!d)return r;Object.values(d).forEach(x=>{if(x.answer==='yes')r.yes++;else if(x.answer==='no')r.no++;else if(x.answer==='idk')r.idk++;});return r;}
-  const c1=cnt(v1d),c2=cnt(v2d),t1=c1.yes+c1.no+c1.idk,t2=c2.yes+c2.no+c2.idk;
-  const C=['#e8c547','#e85447','#7b8cde'],L=['합리적이다','합리적이지 않다','모르겠다'],SZ=130,R=52,cx=65,cy=65;
+  const [v1d,v2d] = await Promise.all([fbGet('votes/v1'), fbGet('votes/v2')]);
+  function cnt(d){ const r={yes:0,no:0,idk:0}; if(!d)return r; Object.values(d).forEach(x=>{ if(x.answer==='yes')r.yes++; else if(x.answer==='no')r.no++; else if(x.answer==='idk')r.idk++; }); return r; }
+  const c1=cnt(v1d), c2=cnt(v2d), t1=c1.yes+c1.no+c1.idk, t2=c2.yes+c2.no+c2.idk;
+  const C=['#e8c547','#e85447','#7b8cde'], L=['합리적이다','합리적이지 않다','모르겠다'], SZ=130, R=52, cx=65, cy=65;
   function pie(data,total,lbl){
-    if(total===0)return `<div class="chart-item"><div class="chart-label-top">${lbl}<br><span style="font-size:10px;color:var(--dim)">(0명)</span></div><svg class="pie-svg" width="${SZ}" height="${SZ}" viewBox="0 0 ${SZ} ${SZ}"><circle cx="${cx}" cy="${cy}" r="${R}" fill="#2a2a3a" opacity="0.6"/><circle cx="${cx}" cy="${cy}" r="28" fill="var(--surface)"/><text style="font-size:10px;fill:var(--dim);text-anchor:middle;" x="${cx}" y="${cy+4}">없음</text></svg><div class="chart-legend">${L.map((l,i)=>`<div class="leg-row"><div class="leg-dot" style="background:${C[i]}"></div><span style="font-size:10px">${l}</span><span class="leg-val">0%</span></div>`).join('')}</div></div>`;
-    const vals=[data.yes,data.no,data.idk],pcts=vals.map(v=>Math.round(v/total*100));
-    let paths='',sa=-Math.PI/2;
-    vals.forEach((v,i)=>{if(v===0)return;if(v===total){paths+=`<circle cx="${cx}" cy="${cy}" r="${R}" fill="${C[i]}" opacity="0.9"/>`;return;}const a=(v/total)*2*Math.PI,ea=sa+a,x1=cx+R*Math.cos(sa),y1=cy+R*Math.sin(sa),x2=cx+R*Math.cos(ea),y2=cy+R*Math.sin(ea),lg=a>Math.PI?1:0;paths+=`<path d="M${cx},${cy} L${x1.toFixed(2)},${y1.toFixed(2)} A${R},${R} 0 ${lg},1 ${x2.toFixed(2)},${y2.toFixed(2)} Z" fill="${C[i]}" opacity="0.9"/>`;sa=ea;});
+    if(total===0) return `<div class="chart-item"><div class="chart-label-top">${lbl}<br><span style="font-size:10px;color:var(--dim)">(0명)</span></div><svg class="pie-svg" width="${SZ}" height="${SZ}" viewBox="0 0 ${SZ} ${SZ}"><circle cx="${cx}" cy="${cy}" r="${R}" fill="#2a2a3a" opacity="0.6"/><circle cx="${cx}" cy="${cy}" r="28" fill="var(--surface)"/><text style="font-size:10px;fill:var(--dim);text-anchor:middle;" x="${cx}" y="${cy+4}">없음</text></svg><div class="chart-legend">${L.map((l,i)=>`<div class="leg-row"><div class="leg-dot" style="background:${C[i]}"></div><span style="font-size:10px">${l}</span><span class="leg-val">0%</span></div>`).join('')}</div></div>`;
+    const vals=[data.yes,data.no,data.idk], pcts=vals.map(v=>Math.round(v/total*100));
+    let paths='', sa=-Math.PI/2;
+    vals.forEach((v,i)=>{ if(v===0)return; if(v===total){paths+=`<circle cx="${cx}" cy="${cy}" r="${R}" fill="${C[i]}" opacity="0.9"/>`;return;} const a=(v/total)*2*Math.PI,ea=sa+a,x1=cx+R*Math.cos(sa),y1=cy+R*Math.sin(sa),x2=cx+R*Math.cos(ea),y2=cy+R*Math.sin(ea),lg=a>Math.PI?1:0; paths+=`<path d="M${cx},${cy} L${x1.toFixed(2)},${y1.toFixed(2)} A${R},${R} 0 ${lg},1 ${x2.toFixed(2)},${y2.toFixed(2)} Z" fill="${C[i]}" opacity="0.9"/>`;sa=ea; });
     return `<div class="chart-item"><div class="chart-label-top">${lbl}<br><span style="font-size:10px;color:var(--dim)">(${total}명)</span></div><svg class="pie-svg" width="${SZ}" height="${SZ}" viewBox="0 0 ${SZ} ${SZ}">${paths}<circle cx="${cx}" cy="${cy}" r="28" fill="var(--surface)"/><text class="pie-ct" x="${cx}" y="${cy-5}">${total}명</text><text class="pie-ct" x="${cx}" y="${cy+8}">응답</text></svg><div class="chart-legend">${L.map((l,i)=>`<div class="leg-row"><div class="leg-dot" style="background:${C[i]}"></div><span style="font-size:10px">${l}</span><span class="leg-val">${pcts[i]}%</span></div>`).join('')}</div></div>`;
   }
-  document.getElementById('chartWrap').innerHTML=pie(c1,t1,'📊 발표 전')+'<div class="vsep"></div>'+pie(c2,t2,'📊 발표 후');
-  const st1=t1||1,st2=t2||1,diff=Math.round(c2.no/st2*100)-Math.round(c1.no/st1*100);
-  document.getElementById('chNum').textContent=(diff>0?'+':'')+diff+'%p';
+  document.getElementById('chartWrap').innerHTML = pie(c1,t1,'📊 발표 전')+'<div class="vsep"></div>'+pie(c2,t2,'📊 발표 후');
+  const st1=t1||1, st2=t2||1, diff=Math.round(c2.no/st2*100)-Math.round(c1.no/st1*100);
+  document.getElementById('chNum').textContent = (diff>0?'+':'')+diff+'%p';
 }
 
-// ── 추첨 화면 이름 클라우드 ───────────────────
+// ── 이름 클라우드 ─────────────────────────────
 async function loadNameCloud(){
-  const parts=await fbGet('participants');
-  if(!parts)return;
-  const names=Object.values(parts).map(p=>p.name);
-  document.getElementById('nameCloud').innerHTML=names.map(n=>`<div class="name-chip" id="nc_${n}">${n}</div>`).join('');
-  document.getElementById('lotteryStatus').textContent='추첨 준비 완료 — 발표자가 추첨을 시작합니다';
+  const parts = await fbGet('participants');
+  const nc = document.getElementById('nameCloud');
+  if(!parts || Object.keys(parts).length === 0){
+    nc.innerHTML = '<div style="color:var(--dim);font-size:13px;">참여자 없음</div>';
+    return;
+  }
+  const names = Object.values(parts).map(p=>p.name);
+  nc.innerHTML = names.map(n=>`<div class="name-chip" id="chip_${CSS.escape(n)}">${n}</div>`).join('');
+  document.getElementById('lotteryStatus').textContent = '추첨 준비 완료 — 발표자가 추첨을 시작합니다';
 }
 
-// ── 슬롯 애니메이션 ───────────────────────────
-async function runSlotAnimation(winners,slogan){
-  lotteryRunning=true;
-  document.getElementById('lotteryStatus').textContent='🎰 추첨이 시작됩니다!';
+// ── 슬롯 애니메이션 (핵심 수정) ───────────────
+async function runSlotAnimation(winners, slogan){
+  lotteryRunning = true;
+  document.getElementById('lotteryStatus').textContent = '🎰 추첨이 시작됩니다!';
+  document.getElementById('winnersBox').classList.remove('show');
+  document.getElementById('winnersBox').innerHTML = '';
 
-  const parts=await fbGet('participants');
-  let names=parts?Object.values(parts).map(p=>p.name):['참가자'];
-  if(names.length<3){while(names.length<6)names=[...names,...names];}
+  // 참여자 이름 목록
+  const parts = await fbGet('participants');
+  let names = parts ? Object.values(parts).map(p=>p.name) : [];
+  if(names.length === 0) names = ['참가자A','참가자B','참가자C'];
+  // 최소 6명 이상으로 패딩
+  while(names.length < 6){ names = [...names, ...names]; }
 
-  // 슬롯 표시
-  document.getElementById('slotsWrap').style.display='flex';
-  document.getElementById('nameCloud').style.opacity='0.3';
+  // 이름 클라우드 흐리게
+  document.getElementById('nameCloud').style.opacity = '0.25';
 
-  const RANKS=['🥇 1등','🥈 2등','🥉 3등'];
-  const winnerNames=[];
+  // 슬롯 섹션 표시
+  const ss = document.getElementById('slotsSection');
+  ss.style.display = 'block';
 
+  // 당첨자 3명 확정
+  const winnerList = [];
   for(let i=0;i<3;i++){
-    const winner=winners[i]||names[Math.floor(Math.random()*names.length)];
-    winnerNames.push(winner);
-    // 슬롯 채우기
-    const repeated=[...names,...names,...names,...names];
-    repeated.push(winner);
-    document.getElementById('si'+i).innerHTML=repeated.map((n,j)=>
-      `<div class="slot-item" style="${j===repeated.length-1?'color:var(--accent);font-size:16px;':''}">${n}</div>`
-    ).join('');
+    winnerList.push(winners[i] || names[Math.floor(Math.random()*names.length)]);
+  }
+
+  const RANKS = ['🥇 1등','🥈 2등','🥉 3등'];
+
+  // 릴 초기화
+  for(let i=0;i<3;i++){
+    const reel = document.getElementById('reel'+i);
+    // 충분히 긴 이름 리스트 + 당첨자를 맨 마지막에
+    const list = [...names,...names,...names,...names,...names, winnerList[i]];
+    reel.innerHTML = list.map((n,j)=>`<div class="slot-item${j===list.length-1?' win-item':''}">${n}</div>`).join('');
+    reel.style.transform = 'translateY(0px)';
   }
 
   // 순차 스핀
   for(let i=0;i<3;i++){
-    document.getElementById('lotteryStatus').textContent=`${RANKS[i]} 추첨 중...`;
-    await spinDrum(i,winnerNames[i],names,3000+i*700);
-    document.getElementById('slot'+i).classList.add('winner-slot');
-    // 이름 클라우드에서 당첨자 하이라이트
-    const chip=document.getElementById('nc_'+winnerNames[i]);
-    if(chip)chip.classList.add('winner-chip');
-    await delay(600);
+    document.getElementById('lotteryStatus').textContent = `${RANKS[i]} 추첨 중...`;
+    await spinReel(i, 3200 + i*900);
+    document.getElementById('slotBox'+i).classList.add('winner');
+    // 이름 클라우드 당첨자 하이라이트
+    try{
+      const chip = document.querySelector(`#chip_${CSS.escape(winnerList[i])}`);
+      if(chip) chip.classList.add('highlight');
+    }catch(e){}
+    await delay(700);
   }
 
   // 당첨자 발표
-  document.getElementById('lotteryStatus').textContent='🎉 당첨자가 발표되었습니다!';
-  const wr=document.getElementById('winnersReveal');
-  wr.innerHTML=`<div class="wr-title">🎉 당첨자 발표</div>`+
-    winnerNames.map((n,i)=>`<div class="winner-row" style="animation-delay:${i*0.2}s"><div class="winner-rank">${RANKS[i]}</div><div class="winner-name">${n}</div></div>`).join('');
-  wr.classList.add('show');
-  lotteryRunning=false;
+  document.getElementById('lotteryStatus').textContent = '🎉 당첨자가 발표되었습니다!';
+  const wb = document.getElementById('winnersBox');
+  wb.innerHTML = `<div class="wb-title">🎉 당첨자 발표</div>` +
+    winnerList.map((n,i)=>`<div class="winner-row"><div class="winner-rank">${RANKS[i]}</div><div class="winner-name">${n}</div></div>`).join('');
+  wb.classList.add('show');
+  lotteryRunning = false;
 }
 
-function delay(ms){return new Promise(r=>setTimeout(r,ms));}
-
-function spinDrum(idx,winner,names,duration){
+function spinReel(idx, duration){
   return new Promise(resolve=>{
-    const inner=document.getElementById('si'+idx);
-    const itemH=88;
-    const all=[...names,...names,...names,...names,winner];
-    inner.innerHTML=all.map((n,j)=>`<div class="slot-item" style="${j===all.length-1?'color:var(--accent);font-size:16px;':''}">${n}</div>`).join('');
-    const maxPx=-(all.length-1)*itemH;
-    let start=null;
+    const reel = document.getElementById('reel'+idx);
+    const itemH = 90;
+    const totalItems = reel.children.length;
+    const targetPx = -(totalItems - 1) * itemH; // 마지막 아이템(당첨자)에 정렬
+    let startTime = null;
+
     function frame(ts){
-      if(!start)start=ts;
-      const prog=Math.min((ts-start)/duration,1);
-      const eased=1-Math.pow(1-prog,4);
-      inner.style.transform=`translateY(${maxPx*eased}px)`;
-      if(prog<1)requestAnimationFrame(frame);
-      else{inner.style.transform=`translateY(${maxPx}px)`;resolve();}
+      if(!startTime) startTime = ts;
+      const elapsed = ts - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // easeOutQuart
+      const eased = 1 - Math.pow(1 - progress, 4);
+      const currentPx = targetPx * eased;
+      reel.style.transform = `translateY(${currentPx}px)`;
+
+      if(progress < 1){
+        requestAnimationFrame(frame);
+      } else {
+        reel.style.transform = `translateY(${targetPx}px)`;
+        resolve();
+      }
     }
     requestAnimationFrame(frame);
   });
@@ -533,41 +670,57 @@ function spinDrum(idx,winner,names,duration){
 
 // ── 메모 ─────────────────────────────────────
 async function loadMemos(){
-  const data=await fbGet('memos');if(!data){document.getElementById('memoList').innerHTML='';return;}
-  const list=Object.values(data).sort((a,b)=>(a.time||'').localeCompare(b.time||''));
-  document.getElementById('memoList').innerHTML=list.map((m,i)=>`<div class="mitem"><div class="mnum">${i+1}번</div><div class="mauth">${m.name}</div><div>${m.memo}</div></div>`).join('');
+  const data = await fbGet('memos'); if(!data){ document.getElementById('memoList').innerHTML=''; return; }
+  const list = Object.values(data).sort((a,b)=>(a.time||'').localeCompare(b.time||''));
+  document.getElementById('memoList').innerHTML = list.map((m,i)=>`<div class="mitem"><div class="mnum">${i+1}번</div><div class="mauth">${m.name}</div><div>${m.memo}</div></div>`).join('');
 }
 function toggleMemo(){
-  const s=document.getElementById('memoSlide'),o=s.classList.contains('open');
+  const s=document.getElementById('memoSlide'), o=s.classList.contains('open');
   s.classList.toggle('open');
-  document.getElementById('memoTrigger').textContent=o?'💬 나의 한 줄 남기기':'✏️ 입력 닫기';
-  if(!o)setTimeout(()=>document.getElementById('memoTxt').focus(),420);
+  document.getElementById('memoTrigger').textContent = o ? '💬 나의 한 줄 남기기' : '✏️ 입력 닫기';
+  if(!o) setTimeout(()=>document.getElementById('memoTxt').focus(), 420);
 }
 async function doMemo(){
-  if(lsGet('memoSubmitted'))return;
-  const txt=document.getElementById('memoTxt').value.trim();if(!txt)return;
+  if(lsGet('memoSubmitted')) return;
+  const txt = document.getElementById('memoTxt').value.trim(); if(!txt) return;
   lsSet('memoSubmitted','1');
-  await fbPost('memos',{name:nick,memo:txt});
+  await fbPost('memos', {name:nick, memo:txt});
   document.getElementById('memoTxt').value='';
   document.getElementById('memoSlide').classList.remove('open');
-  const t=document.getElementById('memoTrigger');t.textContent='✅ 메모 제출 완료';t.disabled=true;
+  const t=document.getElementById('memoTrigger'); t.textContent='✅ 메모 제출 완료'; t.disabled=true;
   loadMemos();
 }
 
 // ── 페이지 로드 ───────────────────────────────
-window.onload=async()=>{
-  const saved=lsGet('vNick');if(!saved)return;
-  nick=saved;document.getElementById('nickInput').value=saved;
-  const cfg=await fbGet('config')||{};
-  const fp=cfg.forcePhase;
-  lastResetSig=cfg.resetSignal||null;lastRevoteSig=cfg.revoteSignal||null;lastSpinSig=cfg.spinSignal||null;
-  startHeartbeat();startPolling();
-  if(fp!==null&&fp!==undefined&&fp!==false){goToScreen(fp);return;}
-  const hasV2=!!lsGet('v2'),hasV1=!!lsGet('v1');
-  if(hasV2){v2done=true;go('sThanks');}
-  else if(hasV1){updateV1Badge();go('s3');}
-  else go('s2');
-  if(lsGet('memoSubmitted')){const t=document.getElementById('memoTrigger');t.textContent='✅ 메모 제출 완료';t.disabled=true;}
+window.onload = async () => {
+  const saved = lsGet('vNick'); if(!saved) return;
+  nick = saved; document.getElementById('nickInput').value = saved;
+
+  const cfg = await fbGet('config') || {};
+  const fp = cfg.forcePhase;
+
+  // 신호 초기값 세팅 (기존 신호에 반응 방지)
+  lastResetSig  = cfg.resetSignal  || null;
+  lastRevoteSig = cfg.revoteSignal || null;
+  lastSpinSig   = cfg.spinSignal   || null;
+
+  startHeartbeat(); startPolling();
+
+  if(isValidPhase(fp)){
+    const fpNum = Number(fp);
+    if(fpNum===6){ go('s6'); loadNameCloud(); return; }
+    if(fpNum===7){ go('s7'); return; }
+    goToScreen(fpNum); return;
+  }
+
+  const hasV2=!!lsGet('v2'), hasV1=!!lsGet('v1');
+  if(hasV2){ v2done=true; go('sThanks'); }
+  else if(hasV1){ updateV1Badge(); go('s3'); }
+  else { go('s2'); }
+
+  if(lsGet('memoSubmitted')){
+    const t=document.getElementById('memoTrigger'); t.textContent='✅ 메모 제출 완료'; t.disabled=true;
+  }
 };
 </script>
 </body>
