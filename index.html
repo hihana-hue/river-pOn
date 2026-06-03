@@ -105,12 +105,14 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
   overflow:hidden;
   padding:0;
   box-sizing:border-box;
+  background:var(--bg);
 }
 .lottery-top-bar{
-  padding:8px 14px 6px;
+  padding:7px 14px 5px;
   border-bottom:1px solid var(--border);
   flex-shrink:0;
 }
+
 /* 이름 영역 (위/아래) */
 .name-zone{
   padding:4px 10px;
@@ -119,88 +121,156 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
   flex-shrink:0;
 }
 .name-chip{
-  background:var(--surface2);
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:4px 10px;
-  color:var(--text);
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:12px;
+  padding:3px 9px;
+  color:var(--dim);
   transition:all .4s;
   white-space:nowrap;
 }
 .name-chip.highlight{
-  background:rgba(232,197,71,0.2);
+  background:rgba(232,197,71,0.25);
   border-color:var(--accent);
   color:var(--accent);
   font-weight:700;
-  transform:scale(1.06);
+  transform:scale(1.08);
+  box-shadow:0 0 8px rgba(232,197,71,0.4);
 }
-/* 슬롯 중앙 영역 */
-.slot-center{
-  flex:1;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:flex-start;
-  padding:6px 16px 4px;
-  gap:6px;
+
+/* ── 슬롯 영역 전체 래퍼 (화려한 배경) ── */
+.slot-arena{
+  flex-shrink:0;
+  margin:6px 12px;
+  border-radius:20px;
+  padding:14px 14px 12px;
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(135deg,#1a0a2e 0%,#0d1a3a 40%,#1a0a2e 100%);
+  border:1.5px solid rgba(138,100,255,0.35);
+  box-shadow:0 0 32px rgba(100,80,255,0.25), inset 0 0 40px rgba(0,0,0,0.4);
+}
+/* 빛나는 배경 파티클 효과 */
+.slot-arena::before{
+  content:'';
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(138,100,255,0.15) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 50%, rgba(232,197,71,0.1) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 0%, rgba(71,201,162,0.08) 0%, transparent 50%);
+  pointer-events:none;
+}
+/* 상단 빛 줄기 */
+.slot-arena::after{
+  content:'';
+  position:absolute;top:0;left:10%;right:10%;height:1px;
+  background:linear-gradient(to right,transparent,rgba(232,197,71,0.6),rgba(138,100,255,0.6),transparent);
+  box-shadow:0 0 8px rgba(232,197,71,0.4);
+}
+
+.slot-arena-title{
+  font-family:'Noto Serif KR',serif;
+  font-size:11px;
+  color:rgba(138,100,255,0.7);
+  text-align:center;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  margin-bottom:8px;
+  position:relative;z-index:1;
 }
 .lottery-status{
-  font-size:13px;color:var(--dim);
-  text-align:center;min-height:18px;
+  font-size:13px;
+  color:rgba(232,197,71,0.85);
+  text-align:center;
+  min-height:18px;
+  margin-bottom:8px;
+  font-weight:600;
+  position:relative;z-index:1;
+  text-shadow:0 0 10px rgba(232,197,71,0.4);
 }
+
 /* 슬롯 3개 */
-.slots-wrap{display:flex;gap:10px;justify-content:center;width:100%;}
+.slots-wrap{
+  display:flex;gap:8px;justify-content:center;
+  width:100%;position:relative;z-index:1;
+}
 .slot-box{
   flex:1;max-width:110px;
-  height:88px;
-  background:var(--surface);
-  border:2px solid var(--border);
+  height:90px;
+  background:rgba(0,0,0,0.5);
+  border:2px solid rgba(138,100,255,0.4);
   border-radius:14px;
   overflow:hidden;
   position:relative;
   transition:border-color .4s,box-shadow .4s;
+  box-shadow:inset 0 0 12px rgba(0,0,0,0.6);
 }
-.slot-box.winner{border-color:var(--accent);box-shadow:0 0 18px rgba(232,197,71,0.4);}
+.slot-box.winner{
+  border-color:var(--accent);
+  box-shadow:0 0 20px rgba(232,197,71,0.6), inset 0 0 12px rgba(232,197,71,0.1);
+  animation:winnerPulse .6s ease;
+}
+@keyframes winnerPulse{
+  0%{transform:scale(1);}
+  30%{transform:scale(1.06);}
+  100%{transform:scale(1);}
+}
 .slot-box::before,.slot-box::after{
-  content:'';position:absolute;left:0;right:0;height:24px;z-index:3;pointer-events:none;
+  content:'';position:absolute;left:0;right:0;height:26px;z-index:3;pointer-events:none;
 }
-.slot-box::before{top:0;background:linear-gradient(to bottom,var(--surface),transparent);}
-.slot-box::after{bottom:0;background:linear-gradient(to top,var(--surface),transparent);}
+.slot-box::before{top:0;background:linear-gradient(to bottom,rgba(0,0,0,0.7),transparent);}
+.slot-box::after{bottom:0;background:linear-gradient(to top,rgba(0,0,0,0.7),transparent);}
+/* 중앙선 (선택 표시) */
+.slot-box .slot-line{
+  position:absolute;top:50%;left:0;right:0;height:2px;
+  background:linear-gradient(to right,transparent,rgba(232,197,71,0.5),transparent);
+  transform:translateY(-50%);z-index:4;pointer-events:none;
+}
 .slot-reel{position:absolute;top:0;left:0;width:100%;}
 .slot-item{
-  height:88px;
+  height:90px;
   display:flex;align-items:center;justify-content:center;
   font-family:'Noto Serif KR',serif;
-  font-size:16px;font-weight:700;
-  color:var(--text);text-align:center;
+  font-size:15px;font-weight:700;
+  color:#ddd;text-align:center;
   padding:0 6px;line-height:1.3;
 }
-.slot-item.win-item{color:var(--accent);font-size:18px;}
-/* 초기 텍스트 표시 슬롯 */
+.slot-item.win-item{
+  color:var(--accent);font-size:17px;
+  text-shadow:0 0 12px rgba(232,197,71,0.7);
+}
+/* 초기 텍스트 */
 .slot-default{
-  height:88px;
+  height:90px;
   display:flex;align-items:center;justify-content:center;
   font-family:'Noto Serif KR',serif;
-  font-size:22px;font-weight:900;
-  color:rgba(232,197,71,0.35);
+  font-size:20px;font-weight:900;
+  color:rgba(138,100,255,0.5);
   text-align:center;letter-spacing:0.05em;
 }
 
-/* 당첨자 발표 */
+/* 당첨자 발표 (slot-arena 안) */
 .winners-box{
   display:none;
-  background:var(--surface);
-  border:1px solid rgba(232,197,71,0.35);
-  border-radius:14px;
-  padding:12px 16px;
+  padding:10px 4px 2px;
   text-align:center;
   animation:fi .6s ease;
-  width:100%;
-  box-sizing:border-box;
+  position:relative;z-index:1;
 }
 .winners-box.show{display:block;}
-.wb-title{font-family:'Noto Serif KR',serif;font-size:14px;color:var(--accent);font-weight:700;margin-bottom:8px;}
-.winner-row{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:4px;}
-.winner-rank{font-size:11px;font-weight:700;background:var(--accent);color:#000;border-radius:20px;padding:3px 12px;white-space:nowrap;}
-.winner-name{font-family:'Noto Serif KR',serif;font-size:24px;font-weight:900;color:var(--text);}
+.wb-title{
+  font-family:'Noto Serif KR',serif;
+  font-size:12px;color:rgba(232,197,71,0.7);
+  font-weight:700;margin-bottom:6px;
+  letter-spacing:0.08em;
+}
+.wb-names{
+  font-family:'Noto Serif KR',serif;
+  font-size:20px;font-weight:900;
+  color:#fff;
+  line-height:1.4;
+  text-shadow:0 0 16px rgba(232,197,71,0.5);
+}
 
 /* ── 종료 화면 ── */
 .end-wrap{
@@ -369,30 +439,28 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
     </div>
     <!-- 이름 영역 위쪽 (1~20번) -->
     <div class="name-zone" id="nameZoneTop"></div>
-    <!-- 슬롯 중앙 -->
-    <div class="slot-center">
+    <!-- 슬롯 화려한 배경 영역 -->
+    <div class="slot-arena">
+      <div class="slot-arena-title">🎰 LUCKY DRAW</div>
       <div class="lottery-status" id="lotteryStatus">잠시 후 추첨이 시작됩니다</div>
       <div class="slots-wrap">
         <div class="slot-box" id="slotBox0">
-          <div class="slot-reel" id="reel0">
-            <div class="slot-default">프로</div>
-          </div>
+          <div class="slot-line"></div>
+          <div class="slot-reel" id="reel0"><div class="slot-default">프로</div></div>
         </div>
         <div class="slot-box" id="slotBox1">
-          <div class="slot-reel" id="reel1">
-            <div class="slot-default">젝트</div>
-          </div>
+          <div class="slot-line"></div>
+          <div class="slot-reel" id="reel1"><div class="slot-default">젝트</div></div>
         </div>
         <div class="slot-box" id="slotBox2">
-          <div class="slot-reel" id="reel2">
-            <div class="slot-default">ON</div>
-          </div>
+          <div class="slot-line"></div>
+          <div class="slot-reel" id="reel2"><div class="slot-default">ON</div></div>
         </div>
       </div>
-      <!-- 당첨자 발표 -->
+      <!-- 당첨자 발표 (slot-arena 바로 아래에 붙음) -->
       <div class="winners-box" id="winnersBox"></div>
     </div>
-    <!-- 이름 영역 아래쪽 (21~40번) -->
+    <!-- 이름 영역 아래쪽 (21~40번) - slot-arena 바로 아래 -->
     <div class="name-zone" id="nameZoneBottom"></div>
   </div>
 </div>
@@ -848,10 +916,9 @@ async function runSlotAnimation(winners, slogan){
   const statusMsg = iAmWinner ? '🎉 당첨을 축하합니다!' : '🎉 당첨자가 발표되었습니다!';
   document.getElementById('lotteryStatus').textContent = statusMsg;
   const wb = document.getElementById('winnersBox');
-  // 이름 직렬 나열: "도랑소 / 세롱이 / 최강"
   const namesLine = winnerList.join(' / ');
   wb.innerHTML = `<div class="wb-title">${statusMsg}</div>` +
-    `<div style="font-family:'Noto Serif KR',serif;font-size:22px;font-weight:900;color:var(--text);line-height:1.5;">${namesLine}</div>`;
+    `<div class="wb-names">${namesLine}</div>`;
   wb.classList.add('show');
 
   // 이름 영역 원상복구
