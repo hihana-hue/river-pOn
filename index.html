@@ -403,80 +403,87 @@ async function pollPhase(){
   catch(e){ return; }
   if(!cfg) return;
 
-  const fp = cfg.forcePhase;
-  const resetSig  = cfg.resetSignal  || null;
-  const revoteSig = cfg.revoteSignal || null;
-  const spinSig   = cfg.spinSignal   || null;
+  try{
+    const fp        = cfg.forcePhase;
+    const resetSig  = cfg.resetSignal  || null;
+    const revoteSig = cfg.revoteSignal || null;
+    const spinSig   = cfg.spinSignal   || null;
 
-  // ── 1. 초기화 신호 ─────────────────────────
-  if(lastResetSig === '___INIT___'){
-    lastResetSig = resetSig; // 첫 poll: 현재값으로 초기화 (반응 안함)
-  } else if(resetSig && resetSig !== lastResetSig){
-    lastResetSig = resetSig;
-    localStorage.clear();
-    nick=''; sel1=null; sel2=null; v2done=false; lotteryRunning=false;
-    lastRevoteSig='___INIT___'; lastSpinSig='___INIT___';
-    document.getElementById('nickInput').value='';
-    document.getElementById('nickErr').textContent='';
-    stopPolling(); stopHeartbeat(); go('s0'); return;
-  }
-
-  // ── 2. 재투표 신호 ─────────────────────────
-  if(lastRevoteSig === '___INIT___'){
-    lastRevoteSig = revoteSig;
-  } else if(revoteSig && revoteSig !== lastRevoteSig){
-    lastRevoteSig = revoteSig;
-    localStorage.removeItem('v1'); localStorage.removeItem('v2'); localStorage.removeItem('memoSubmitted');
-    sel1=null; sel2=null; v2done=false; resetVoteUI();
-    if(isValidPhase(fp)) goToScreen(fp);
-    return;
-  }
-
-  // ── 3. 추첨 시작 신호 ──────────────────────
-  if(lastSpinSig === '___INIT___'){
-    lastSpinSig = spinSig;
-  } else if(spinSig && spinSig !== lastSpinSig && !lotteryRunning){
-    lastSpinSig = spinSig;
-    const winners = cfg.lotteryWinners || [];
-    const slogan  = cfg.lotterySlogan  || '예측을 의심하고, 역량을 선택하라';
-    // 반드시 s6 화면에서 실행
-    if(currentScreen !== 's6'){
-      go('s6');
-      await loadNameCloud();
-      await delay(400); // DOM 렌더링 대기
+    // ── 1. 초기화 신호 ─────────────────────────
+    if(lastResetSig === '___INIT___'){
+      lastResetSig = resetSig;
+    } else if(resetSig && resetSig !== lastResetSig){
+      lastResetSig = resetSig;
+      localStorage.clear();
+      nick=''; sel1=null; sel2=null; v2done=false; lotteryRunning=false;
+      lastRevoteSig='___INIT___'; lastSpinSig='___INIT___';
+      document.getElementById('nickInput').value='';
+      document.getElementById('nickErr').textContent='';
+      stopPolling(); stopHeartbeat(); go('s0'); return;
     }
-    runSlotAnimation(winners, slogan);
-    return;
-  }
 
-  // ── 4. forcePhase 처리 ─────────────────────
-  if(isValidPhase(fp)){
-    const fpNum = Number(fp);
+    // ── 2. 재투표 신호 ─────────────────────────
+    if(lastRevoteSig === '___INIT___'){
+      lastRevoteSig = revoteSig;
+    } else if(revoteSig && revoteSig !== lastRevoteSig){
+      lastRevoteSig = revoteSig;
+      localStorage.removeItem('v1'); localStorage.removeItem('v2'); localStorage.removeItem('memoSubmitted');
+      sel1=null; sel2=null; v2done=false; resetVoteUI();
+      if(isValidPhase(fp)) goToScreen(fp);
+      return;
+    }
 
-    // 학생이 이미 완료한 단계보다 낮은 phase로는 되돌리지 않음
-    // 예: 1차 투표 완료(v1 있음) → forcePhase=2여도 s2로 안 돌아감
-    const minAllowed = getMinAllowedPhase();
-    if(fpNum < minAllowed) return; // 낮은 단계 무시
-
-    if(fpNum === 6){
+    // ── 3. 추첨 시작 신호 ──────────────────────
+    // spinSig는 forcePhase와 독립적으로 처리 (return 하지 않음)
+    if(lastSpinSig === '___INIT___'){
+      lastSpinSig = spinSig; // 초기화만, 반응 안함
+    } else if(spinSig && spinSig !== lastSpinSig && !lotteryRunning){
+      lastSpinSig = spinSig;
+      const winners = cfg.lotteryWinners || [];
+      const slogan  = cfg.lotterySlogan  || '예측을 의심하고, 역량을 선택하라';
       if(currentScreen !== 's6'){
         go('s6');
-        loadNameCloud();
+        await loadNameCloud();
+        await delay(400);
       }
-    } else if(fpNum === 7){
-      go('s7');
-      const slogan = cfg.lotterySlogan || '예측을 의심하고, 역량을 선택하라';
-      document.getElementById('endSlogan').textContent = slogan;
-    } else {
-      goToScreen(fpNum);
+      runSlotAnimation(winners, slogan);
+      return; // 애니메이션 시작 후 return (forcePhase 처리 불필요)
     }
-    return;
-  }
 
-  // ── 5. 일반 흐름 (forcePhase 없을 때) ──────
-  if(v2done){
-    const phase = cfg.phase || 0;
-    if(phase >= 5){ stopPolling(); await buildChart(); go('s5'); loadMemos(); }
+    // ── 4. forcePhase 처리 ─────────────────────
+    if(isValidPhase(fp)){
+      const fpNum = Number(fp);
+      const minAllowed = getMinAllowedPhase();
+
+      // 이미 완료한 단계보다 낮은 phase는 무시
+      // 단, 6(추첨)과 7(종료)은 항상 허용
+      if(fpNum < minAllowed && fpNum < 6) return;
+
+      if(fpNum === 6){
+        if(currentScreen !== 's6'){
+          go('s6');
+          loadNameCloud();
+        }
+      } else if(fpNum === 7){
+        go('s7');
+        const slogan = cfg.lotterySlogan || '예측을 의심하고, 역량을 선택하라';
+        const el = document.getElementById('endSlogan');
+        if(el) el.textContent = slogan;
+      } else {
+        goToScreen(fpNum);
+      }
+      return;
+    }
+
+    // ── 5. 일반 흐름 (forcePhase 없을 때) ──────
+    if(v2done){
+      const phase = cfg.phase || 0;
+      if(phase >= 5){ stopPolling(); await buildChart(); go('s5'); loadMemos(); }
+    }
+
+  } catch(e){
+    // pollPhase 내부 에러는 무시하고 다음 poll에서 재시도
+    console.warn('pollPhase error:', e);
   }
 }
 
@@ -497,7 +504,7 @@ function resetVoteUI(){
   const mt=document.getElementById('memoTrigger'); mt.textContent='💬 나의 한 줄 남기기'; mt.disabled=false;
 }
 
-function startPolling(){ if(!pollTimer) pollTimer = setInterval(pollPhase, 2000); }
+function startPolling(){ if(!pollTimer) pollTimer = setInterval(pollPhase, 1500); }
 function stopPolling(){ if(pollTimer){ clearInterval(pollTimer); pollTimer=null; } }
 function delay(ms){ return new Promise(r=>setTimeout(r,ms)); }
 
