@@ -385,7 +385,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
   <div class="card" id="v2Card">
     <div class="ctitle">📊 발표 후 투표</div>
     <div class="sub" style="margin-bottom:8px;">발표를 듣고 난 지금, 같은 질문에 다시 답해주세요.</div>
-    <div class="q">나는 진로를 결정할 때<br>유망직종·소멸직종 자료나<br>전문가 예측에 따라 생각이 바뀐다</div>
+    <div class="q">나는 진로를 결정할 때<br>유망직종·소멸직종 자료나<br>전문가 예측에 따라 생각을 바꿀 것인가?</div>
     <div class="vopts" id="vo2">
       <button class="vbtn" onclick="pick(2,'yes',this)">✅ 그렇다</button>
       <button class="vbtn" onclick="pick(2,'no',this)">❌ 아니다</button>
@@ -418,7 +418,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
   <div class="divider"></div>
   <div class="card">
     <div class="ctitle">✏️ 한 줄 메모</div>
-    <button class="memo-trigger" id="memoTrigger" onclick="toggleMemo()">💬 나의 한 줄 남기기</button>
+    <button class="memo-trigger" id="memoTrigger" onclick="toggleMemo()">💬 한 줄 의견 남기기</button>
     <div class="memo-slide" id="memoSlide">
       <textarea class="minput" id="memoTxt" placeholder="발표를 듣고 난 지금, 나는 진로를 어떻게 결정하겠습니까?"></textarea>
       <button class="sbtn" onclick="doMemo()">제출하기</button>
@@ -479,7 +479,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
     <div class="end-title">누가 당신의 진로를<br>결정하는가</div>
     <div class="end-line"></div>
     <div class="end-slogan" id="endSlogan">예측을 의심하고,<br>역량을 선택하라</div>
-    <div class="end-credit">by 최강 &nbsp;·&nbsp; with 하단우</div>
+    <div class="end-credit">Directed by 최강 | Powered by Claude AI</div>
   </div>
 </div>
 
@@ -646,7 +646,7 @@ async function pollPhase(){
       } else if(fpNum === 7){
         go('s7');
         const el = document.getElementById('endSlogan');
-        if(el) el.textContent = cfg.lotterySlogan || '예측을 의심하고, 역량을 선택하라';
+        if(el) el.textContent = cfg.lotterySlogan || '예측을 의심하고, 역량을 선택하라! 최강영생';
       } else {
         goToScreen(fpNum);
       }
