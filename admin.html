@@ -415,7 +415,7 @@ async function refreshAll(){
 function buildChart(v1d,v2d){
   function cnt(d){const r={yes:0,no:0,idk:0};if(!d)return r;Object.values(d).forEach(x=>{if(x.answer==='yes')r.yes++;else if(x.answer==='no')r.no++;else if(x.answer==='idk')r.idk++;});return r;}
   const c1=cnt(v1d),c2=cnt(v2d),t1=c1.yes+c1.no+c1.idk,t2=c2.yes+c2.no+c2.idk;
-  const C=['#e8c547','#e85447','#7b8cde'],L=['합리적이다','합리적이지 않다','모르겠다'],SZ=104,R=44,cx=52,cy=52;
+  const C=['#e8c547','#e85447','#7b8cde'],L=['참고한다','참고 안 한다','모르겠다'],SZ=104,R=44,cx=52,cy=52;
   function pie(data,total,lbl){
     if(total===0)return `<div class="chart-item"><div class="chart-label-top">${lbl}</div><svg width="${SZ}" height="${SZ}" viewBox="0 0 ${SZ} ${SZ}"><circle cx="${cx}" cy="${cy}" r="${R}" fill="#2a2a3a" opacity="0.5"/><circle cx="${cx}" cy="${cy}" r="22" fill="var(--surface)"/><text style="font-size:9px;fill:var(--dim);text-anchor:middle;" x="${cx}" y="${cy+3}">없음</text></svg><div class="chart-legend">${L.map((l,i)=>`<div class="leg-row"><div class="leg-dot" style="background:${C[i]}"></div><span>${l}</span><span class="leg-val">0%</span></div>`).join('')}</div></div>`;
     const vals=[data.yes,data.no,data.idk];let paths='',sa=-Math.PI/2;

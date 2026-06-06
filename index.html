@@ -347,10 +347,10 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
   <div class="pbar"><div class="pd done"></div><div class="pd cur"></div><div class="pd"></div><div class="pd"></div></div>
   <div class="card">
     <div class="ctitle">📊 발표 전 투표</div>
-    <div class="q">유망직종·소멸직종 자료를 보고<br>진로를 결정하는 것이<br>합리적이라고 생각하는가?</div>
+    <div class="q">나는 진로를 결정할 때<br>유망직종·소멸직종 자료나<br>전문가 예측을 참고한다</div>
     <div class="vopts" id="vo1">
-      <button class="vbtn" onclick="pick(1,'yes',this)">✅ 합리적이다</button>
-      <button class="vbtn" onclick="pick(1,'no',this)">❌ 합리적이지 않다</button>
+      <button class="vbtn" onclick="pick(1,'yes',this)">⭕ 예 — 참고한다</button>
+      <button class="vbtn" onclick="pick(1,'no',this)">❌ 아니오 — 참고하지 않는다</button>
       <button class="vbtn" onclick="pick(1,'idk',this)">🤔 잘 모르겠다</button>
     </div>
   </div>
@@ -385,10 +385,10 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
   <div class="card" id="v2Card">
     <div class="ctitle">📊 발표 후 투표</div>
     <div class="sub" style="margin-bottom:8px;">발표를 듣고 난 지금, 같은 질문에 다시 답해주세요.</div>
-    <div class="q">유망직종·소멸직종 자료를 보고<br>진로를 결정하는 것이<br>합리적이라고 생각하는가?</div>
+    <div class="q">나는 진로를 결정할 때<br>유망직종·소멸직종 자료나<br>전문가 예측을 참고한다</div>
     <div class="vopts" id="vo2">
-      <button class="vbtn" onclick="pick(2,'yes',this)">✅ 합리적이다</button>
-      <button class="vbtn" onclick="pick(2,'no',this)">❌ 합리적이지 않다</button>
+      <button class="vbtn" onclick="pick(2,'yes',this)">⭕ 합리적이다 — 그래도 참고할 만하다</button>
+      <button class="vbtn" onclick="pick(2,'no',this)">❌ 합리적이지 않다 — 예측은 자주 틀린다</button>
       <button class="vbtn" onclick="pick(2,'idk',this)">🤔 잘 모르겠다</button>
     </div>
   </div>
@@ -414,7 +414,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
     <div class="ctitle">📈 투표 결과 비교</div>
     <div class="chart-wrap" id="chartWrap"><div style="text-align:center;color:var(--dim);padding:20px;font-size:13px;">불러오는 중...</div></div>
   </div>
-  <div class="chbox"><div class="chnum" id="chNum">--</div><div class="chdesc">"합리적이지 않다" 응답 변화량</div></div>
+  <div class="chbox"><div class="chnum" id="chNum">--</div><div class="chdesc">"참고하지 않는다" 응답 변화량</div></div>
   <div class="divider"></div>
   <div class="card">
     <div class="ctitle">✏️ 한 줄 메모</div>
@@ -485,7 +485,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 
 <script>
 const FB = 'https://river-projecton-default-rtdb.asia-southeast1.firebasedatabase.app';
-const VOTE_LABELS = {yes:'✅ 합리적이다', no:'❌ 합리적이지 않다', idk:'🤔 잘 모르겠다'};
+const VOTE_LABELS = {yes:'⭕ 예 — 참고한다', no:'❌ 아니오 — 참고하지 않는다', idk:'🤔 잘 모르겠다'};
 
 let nick = '', sel1 = null, sel2 = null, v2done = false;
 let pollTimer = null, heartbeatTimer = null;
@@ -796,7 +796,7 @@ async function buildChart(){
   const [v1d,v2d] = await Promise.all([fbGet('votes/v1'), fbGet('votes/v2')]);
   function cnt(d){ const r={yes:0,no:0,idk:0}; if(!d)return r; Object.values(d).forEach(x=>{ if(x.answer==='yes')r.yes++; else if(x.answer==='no')r.no++; else if(x.answer==='idk')r.idk++; }); return r; }
   const c1=cnt(v1d), c2=cnt(v2d), t1=c1.yes+c1.no+c1.idk, t2=c2.yes+c2.no+c2.idk;
-  const C=['#e8c547','#e85447','#7b8cde'], L=['합리적이다','합리적이지 않다','모르겠다'], SZ=130, R=52, cx=65, cy=65;
+  const C=['#e8c547','#e85447','#7b8cde'], L=['참고한다','참고 안 한다','모르겠다'], SZ=130, R=52, cx=65, cy=65;
   function pie(data,total,lbl){
     if(total===0) return `<div class="chart-item"><div class="chart-label-top">${lbl}<br><span style="font-size:10px;color:var(--dim)">(0명)</span></div><svg class="pie-svg" width="${SZ}" height="${SZ}" viewBox="0 0 ${SZ} ${SZ}"><circle cx="${cx}" cy="${cy}" r="${R}" fill="#2a2a3a" opacity="0.6"/><circle cx="${cx}" cy="${cy}" r="28" fill="var(--surface)"/><text style="font-size:10px;fill:var(--dim);text-anchor:middle;" x="${cx}" y="${cy+4}">없음</text></svg><div class="chart-legend">${L.map((l,i)=>`<div class="leg-row"><div class="leg-dot" style="background:${C[i]}"></div><span style="font-size:10px">${l}</span><span class="leg-val">0%</span></div>`).join('')}</div></div>`;
     const vals=[data.yes,data.no,data.idk], pcts=vals.map(v=>Math.round(v/total*100));
