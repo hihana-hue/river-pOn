@@ -930,9 +930,12 @@ async function runSlotAnimation(winners, slogan){
 function spinReel(idx, duration){
   return new Promise(resolve=>{
     const reel = document.getElementById('reel'+idx);
-    const itemH = 88;
+    // DOM에서 실제 아이템 높이를 읽어서 사용 (CSS 불일치 방지)
+    const firstItem = reel.querySelector('.slot-item');
+    const itemH = firstItem ? firstItem.offsetHeight || 90 : 90;
     const totalItems = reel.children.length;
-    const targetPx = -(totalItems - 1) * itemH; // 마지막 아이템(당첨자)에 정렬
+    // 마지막 아이템(당첨자)이 뷰포트 중앙에 오도록
+    const targetPx = -(totalItems - 1) * itemH;
     let startTime = null;
 
     function frame(ts){
@@ -947,6 +950,7 @@ function spinReel(idx, duration){
       if(progress < 1){
         requestAnimationFrame(frame);
       } else {
+        // 정확하게 마지막 아이템에 고정
         reel.style.transform = `translateY(${targetPx}px)`;
         resolve();
       }
